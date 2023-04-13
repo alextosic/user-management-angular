@@ -4,73 +4,59 @@ const userRepository = require('../database/repositories/user');
 const ErrorResponse = require('../responses/error');
 
 class UserService {
+  constructor(repository) {
+    this.repository = repository;
+  }
+
   async getById(id) {
-    const user = await userRepository.findById(id);
-
-    if (!user) {
-      throw new ErrorResponse('service', 404, 'User not found.');
-    }
-
-    return user;
+    return this.repository.findById(id);
   }
 
   async getByEmail(email) {
-    const user = await userRepository.findByEmail(email);
-
-    if (!user) {
-      throw new ErrorResponse('service', 404, 'User not found.');
-    }
-
-    return user;
+    return this.repository.findByEmail(email);
   }
 
   async getAll() {
-    return userRepository.findAll();
-  }
-
-  async hashPassword(password) {
-    try {
-      return bcrypt.hash(password, process.env.PASSWORD_HASH_ROUNDS);
-    } catch (err) {
-      throw new ErrorResponse('service', 500, 'Error generating password.', err.message);
-    }
-  }
-
-  async verifyPassword(passwordToVerify, userPassword) {
-    try {
-      return bcrypt.compare(passwordToVerify, userPassword);
-    } catch (err) {
-      throw new ErrorResponse('service', 500, 'Error verifying password.', err.message);
-    }
+    return this.repository.findAll();
   }
 
   async create(data) {
-    const {password} = data;
-    const hashedPassword = await this.hashPassword(password);
+    const {email, firstName, lastName, password} = data;
+    const user = await this.getByEmail(email);
 
-    return userRepository.create({ ...data, password: hashedPassword });
+    if (user) {
+      throw new ErrorResponse('service', 409, 'User with that email address already exists.');
+    }
+
+    return this.repository.create({ email, firstName, lastName, password, role: 1 });
   }
 
   async update(id, data) {
     await this.getById(id);
 
     const {firstName, lastName, email} = data;
-    return userRepository.updateById(id, {firstName, lastName, email});
+    return this.repository.updateById(id, {firstName, lastName, email});
+  }
+
+  async resetPassword(email) {
+    const user = await this.getByEmail(email);
+    return this.repository.updateById(user._id, { passwordReset: true });
   }
 
   async updatePassword(id, password) {
-    const hashedPassword = await this.hashPassword(password);
-    return userRepository.updateById(id, { password: hashedPassword });
-  }
+    const user = await this.getById(id);
 
-  async resetPassword(id) {
-    return userRepository.updateById(id, { resetPassword: true });
+    if (!user.passwordReset) {
+      throw new ErrorResponse('service', 400, 'You haven\'t requested a password reset.');
+    }
+
+    return this.repository.updateById(id, { password });
   }
 
   async delete(id) {
     await this.getById(id);
-    return userRepository.deleteById(id);
+    return this.repository.deleteById(id);
   }
 }
 
-module.exports = new UserService();
+module.exports = new UserService(userRepository);
