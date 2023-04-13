@@ -4,8 +4,18 @@ const userRepository = require('../database/repositories/user');
 const ErrorResponse = require('../responses/error');
 
 class UserService {
-  async get(id) {
+  async getById(id) {
     const user = await userRepository.findById(id);
+
+    if (!user) {
+      throw new ErrorResponse('service', 404, 'User not found.');
+    }
+
+    return user;
+  }
+
+  async getByEmail(email) {
+    const user = await userRepository.findByEmail(email);
 
     if (!user) {
       throw new ErrorResponse('service', 404, 'User not found.');
@@ -26,6 +36,14 @@ class UserService {
     }
   }
 
+  async verifyPassword(passwordToVerify, userPassword) {
+    try {
+      return bcrypt.compare(passwordToVerify, userPassword);
+    } catch (err) {
+      throw new ErrorResponse('service', 500, 'Error verifying password.', err.message);
+    }
+  }
+
   async create(data) {
     const {password} = data;
     const hashedPassword = await this.hashPassword(password);
@@ -34,7 +52,7 @@ class UserService {
   }
 
   async update(id, data) {
-    await this.get(id);
+    await this.getById(id);
 
     const {firstName, lastName, email} = data;
     return userRepository.updateById(id, {firstName, lastName, email});
@@ -50,7 +68,7 @@ class UserService {
   }
 
   async delete(id) {
-    await this.get(id);
+    await this.getById(id);
     return userRepository.deleteById(id);
   }
 }

@@ -14,6 +14,10 @@ class UserRepository extends BaseRepository {
     return super.findOne({ _id: id }, null, 'role');
   }
 
+  async findByEmail(email) {
+    return super.findOne({ email }, null, 'role');
+  }
+
   async updateById(id, data) {
     return super.updateOne({ _id: id }, data);
   }
