@@ -19,6 +19,10 @@ const userSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  passwordReset: {
+    type: Boolean,
+    default: false,
+  },
   role: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Role',

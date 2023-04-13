@@ -11,11 +11,7 @@ class BaseRepository {
     try {
       return this.model.find(query, null, options).populate(include);
     } catch (err) {
-      throw new ErrorResponse({
-        type: 'database',
-        status: 500,
-        message: 'Database error.',
-      });
+      throw new ErrorResponse('database', 500, 'Database error.');
     }
   }
 
@@ -23,11 +19,15 @@ class BaseRepository {
     try {
       return this.model.findOne(query, null, options).populate(include);
     } catch (err) {
-      throw new ErrorResponse({
-        type: 'database',
-        status: 500,
-        message: 'Database error.',
-      });
+      throw new ErrorResponse('database', 500, 'Database error.', err.message);
+    }
+  }
+
+  async create(data) {
+    try {
+      return this.model.create(data);
+    } catch (err) {
+      throw new ErrorResponse('database', 500, 'Database error.', err.message);
     }
   }
 
@@ -35,11 +35,7 @@ class BaseRepository {
     try {
       return this.model.updateOne(query, data);
     } catch (err) {
-      throw new ErrorResponse({
-        type: 'database',
-        status: 500,
-        message: 'Database error.',
-      });
+      throw new ErrorResponse('database', 500, 'Database error.', err.message);
     }
   }
 
@@ -47,11 +43,7 @@ class BaseRepository {
     try {
       return this.model.deleteOne(query);
     } catch (err) {
-      throw new ErrorResponse({
-        type: 'database',
-        status: 500,
-        message: 'Database error.',
-      });
+      throw new ErrorResponse('database', 500, 'Database error.', err.message);
     }
   }
 }
