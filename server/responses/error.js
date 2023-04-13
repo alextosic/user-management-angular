@@ -1,10 +1,11 @@
 class ErrorResponse extends Error {
-  constructor(props) {
-    super(props);
+  constructor(type, status, message, details) {
+    super(message);
 
-    this.type = props.type;
-    this.status = props.status;
-    this.message = props.message;
+    this.type = type;
+    this.status = status;
+    this.message = message;
+    this.details = details;
   }
 }
 

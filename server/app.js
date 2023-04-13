@@ -1,9 +1,12 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const dotenv = require('dotenv');
 
 const router = require('./router');
 const errorHandler = require('./errorHandler');
+
+dotenv.config();
 
 const app = express();
 
