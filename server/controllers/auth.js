@@ -1,5 +1,3 @@
-const jwt = require('jsonwebtoken');
-
 const userService = require('../services/user');
 const authService = require('../services/auth');
 const BaseController = require('./base');
@@ -17,7 +15,7 @@ class AuthController extends BaseController {
 
   login() {
     return async (req, res) => {
-      const {email, password} = req.body;
+      const { email, password } = req.body;
       const user = await this.userService.findByEmail(email);
       const passwordValid = await this.authService.verifyPassword(password, user?.password);
 
@@ -38,10 +36,10 @@ class AuthController extends BaseController {
 
   register() {
     return async (req, res) => {
-      const {password} = req.body;
+      const { password } = req.body;
       const hashedPassword = await this.authService.hashPassword(password);
 
-      await this.userService.create({...req.body, password: hashedPassword});
+      await this.userService.create({ ...req.body, password: hashedPassword });
       return this.sendResponse(res, new SuccessResponse(201, 'Account created successfully.'));
     };
   }
@@ -55,7 +53,7 @@ class AuthController extends BaseController {
 
   updatePassword() {
     return async (req, res) => {
-      const {password} = req.body;
+      const { password } = req.body;
       const hashedPassword = await this.authService.hashPassword(password);
 
       await this.userService.updatePassword(req.params.id, hashedPassword);

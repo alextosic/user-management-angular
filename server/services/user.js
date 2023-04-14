@@ -1,5 +1,3 @@
-const bcrypt = require('bcrypt');
-
 const userRepository = require('../database/repositories/user');
 const ErrorResponse = require('../responses/error');
 
@@ -21,7 +19,7 @@ class UserService {
   }
 
   async create(data) {
-    const {email, firstName, lastName, password} = data;
+    const { email, firstName, lastName, password } = data;
     const user = await this.getByEmail(email);
 
     if (user) {
@@ -34,8 +32,8 @@ class UserService {
   async update(id, data) {
     await this.getById(id);
 
-    const {firstName, lastName, email} = data;
-    return this.repository.updateById(id, {firstName, lastName, email});
+    const { firstName, lastName, email } = data;
+    return this.repository.updateById(id, { firstName, lastName, email });
   }
 
   async resetPassword(email) {
