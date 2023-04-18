@@ -1,11 +1,11 @@
 class ErrorResponse extends Error {
-  constructor(type, status, message, details) {
+  constructor(type, status, message, data) {
     super(message);
 
     this.type = type;
     this.status = status;
     this.message = message;
-    this.details = details;
+    this.data = data;
   }
 }
 
