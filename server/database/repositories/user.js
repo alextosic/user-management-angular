@@ -6,8 +6,8 @@ class UserRepository extends BaseRepository {
     super(userModel);
   }
 
-  async findAll() {
-    return super.find({}, null, 'role');
+  async findAllNotAdmin(adminRoleId) {
+    return super.find({ role: { $ne: adminRoleId } }, null, 'role');
   }
 
   async findById(id) {
