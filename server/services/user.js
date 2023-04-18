@@ -14,8 +14,8 @@ class UserService {
     return this.repository.findByEmail(email);
   }
 
-  async getAll() {
-    return this.repository.findAll();
+  async getAllNotAdmin(adminRoleId) {
+    return this.repository.findAllNotAdmin(adminRoleId);
   }
 
   async create(data) {
@@ -32,11 +32,10 @@ class UserService {
   async update(id, data, updatePassword) {
     await this.getById(id);
 
-    const { firstName, lastName, email, password } = data;
+    const { firstName, lastName, password } = data;
     return this.repository.updateById(id, {
       firstName,
       lastName,
-      email,
       ...(updatePassword && { password }),
     });
   }
@@ -46,14 +45,14 @@ class UserService {
     return this.repository.updateById(user._id, { passwordReset: true });
   }
 
-  async updatePassword(id, password) {
-    const user = await this.getById(id);
+  async updatePassword(email, password) {
+    const user = await this.getByEmail(email);
 
     if (!user.passwordReset) {
       throw new ErrorResponse('service', 400, 'You haven\'t requested a password reset.');
     }
 
-    return this.repository.updateById(id, { password });
+    return this.repository.updateById(user._id, { password });
   }
 
   async delete(id) {

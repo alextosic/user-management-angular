@@ -18,65 +18,64 @@ class UserController extends BaseController {
   }
 
   getAllUsers() {
-    return async (req, res, next) => {
-      return this.handleRequest(async () => {
-        const users = await this.userService.getAll();
-        const usersDTO = UserDTO.fromArray(users);
+    return async (req, res, next) => this.handleRequest(async () => {
+      const adminRole = await this.roleService.getByName(defaultRoles.ADMIN);
+      const users = await this.userService.getAllNotAdmin(adminRole._id);
+      const usersDTO = UserDTO.fromArray(users);
 
-        return this.sendResponse(res, new SuccessResponse(200, 'Users fetched successfully.', usersDTO));
-      }, next);
-    };
+      return this.sendResponse(res, new SuccessResponse(200, 'Users fetched successfully.', usersDTO));
+    }, next);
   }
 
   getUser() {
-    return async (req, res, next) => {
-      return this.handleRequest(async () => {
-        const { id } = req.params;
-        const user = await this.userService.getById(id);
-        const userDTO = new UserDTO(user).toJson();
+    return async (req, res, next) => this.handleRequest(async () => {
+      const { id } = req.params;
+      const user = await this.userService.getById(id);
+      const userDTO = new UserDTO(user).toJson();
 
-        return this.sendResponse(res, new SuccessResponse(200, 'User fetched successfully.', userDTO));
-      }, next);
-    };
+      return this.sendResponse(res, new SuccessResponse(200, 'User fetched successfully.', userDTO));
+    }, next);
   }
 
   createUser() {
-    return async (req, res, next) => {
-      return this.handleRequest(async () => {
-        const { password } = req.body;
-        const hashedPassword = await this.authService.hashPassword(password);
-        const userRole = await this.roleService.getByName(defaultRoles.USER);
+    return async (req, res, next) => this.handleRequest(async () => {
+      const { password } = req.body;
+      const hashedPassword = await this.authService.hashPassword(password);
+      const userRole = await this.roleService.getByName(defaultRoles.USER);
 
-        await this.userService.create({ ...req.body, role: userRole._id, password: hashedPassword });
-        return this.sendResponse(res, new SuccessResponse(201, 'User created successfully.'));
-      }, next);
-    };
+      await this.userService.create({
+        ...req.body,
+        role: userRole._id,
+        password: hashedPassword,
+      });
+
+      return this.sendResponse(res, new SuccessResponse(201, 'User created successfully.'));
+    }, next);
   }
 
   updateUser() {
-    return async (req, res, next) => {
-      return this.handleRequest(async () => {
-        const { id } = req.params;
-        const { password } = req.body;
+    return async (req, res, next) => this.handleRequest(async () => {
+      const { id } = req.params;
+      const { password } = req.body;
 
-        const hashedPassword = await this.authService.hashPassword(password);
-        const updatedUser = await this.userService.update(id, { ...req.body, password: hashedPassword }, true);
-        const updatedUserDTO = new UserDTO(updatedUser).toJson();
+      const hashedPassword = password ? await this.authService.hashPassword(password) : undefined;
+      const updatedUser = await this.userService.update(id, {
+        ...req.body,
+        password: hashedPassword,
+      }, true);
 
-        return this.sendResponse(res, new SuccessResponse(200, 'User updated successfully.', updatedUserDTO));
-      }, next);
-    };
+      const updatedUserDTO = new UserDTO(updatedUser).toJson();
+      return this.sendResponse(res, new SuccessResponse(200, 'User updated successfully.', updatedUserDTO));
+    }, next);
   }
 
   deleteUser() {
-    return async (req, res, next) => {
-      return this.handleRequest(async () => {
-        const { id } = req.params;
-        await this.userService.delete(id);
+    return async (req, res, next) => this.handleRequest(async () => {
+      const { id } = req.params;
+      await this.userService.delete(id);
 
-        return this.sendResponse(res, new SuccessResponse(200, 'User deleted successfully.'));
-      }, next);
-    };
+      return this.sendResponse(res, new SuccessResponse(200, 'User deleted successfully.'));
+    }, next);
   }
 }
 

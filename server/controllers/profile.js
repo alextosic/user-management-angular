@@ -11,38 +11,29 @@ class ProfileController extends BaseController {
   }
 
   getProfile() {
-    return async (req, res, next) => {
-      return this.handleRequest(async () => {
-        const { id } = req.params;
-        const profile = await this.userService.getById(id);
-        const profileDTO = new ProfileDTO(profile).toJson();
-
-        return this.sendResponse(res, new SuccessResponse(200, 'Profile fetched successfully.', profileDTO));
-      }, next);
-    };
+    return async (req, res, next) => this.handleRequest(async () => {
+      const profileDTO = new ProfileDTO(req.user).toJson();
+      return this.sendResponse(res, new SuccessResponse(200, 'Profile fetched successfully.', profileDTO));
+    }, next);
   }
 
   updateProfile() {
-    return async (req, res, next) => {
-      return this.handleRequest(async () => {
-        const { id } = req.params;
-        const updatedProfile = await this.userService.update(id, req.body);
-        const updatedProfileDTO = new ProfileDTO(updatedProfile).toJson();
+    return async (req, res, next) => this.handleRequest(async () => {
+      const { _id: id } = req.user;
+      const updatedProfile = await this.userService.update(id, req.body);
+      const updatedProfileDTO = new ProfileDTO(updatedProfile).toJson();
 
-        return this.sendResponse(res, new SuccessResponse(200, 'Profile updated successfully.', updatedProfileDTO));
-      }, next);
-    };
+      return this.sendResponse(res, new SuccessResponse(200, 'Profile updated successfully.', updatedProfileDTO));
+    }, next);
   }
 
   deleteProfile() {
-    return async (req, res, next) => {
-      return this.handleRequest(async () => {
-        const { id } = req.params;
-        await this.userService.delete(id);
+    return async (req, res, next) => this.handleRequest(async () => {
+      const { _id: id } = req.user;
+      await this.userService.delete(id);
 
-        return this.sendResponse(res, new SuccessResponse(200, 'Profile deleted successfully.'));
-      }, next);
-    };
+      return this.sendResponse(res, new SuccessResponse(200, 'Profile deleted successfully.'));
+    }, next);
   }
 }
 
