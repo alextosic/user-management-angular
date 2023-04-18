@@ -1,7 +1,9 @@
 const userService = require('../services/user');
 const authService = require('../services/auth');
 const BaseController = require('./base');
+
 const SuccessResponse = require('../responses/success');
+const UserDTO = require('../dtos/user');
 
 class UserController extends BaseController {
   constructor(userServiceParam, authServiceParam) {
@@ -14,7 +16,9 @@ class UserController extends BaseController {
   getAllUsers() {
     return async (req, res) => {
       const users = await this.userService.getAll();
-      return this.sendResponse(res, new SuccessResponse(200, 'Users fetched successfully.', users));
+      const usersDTO = UserDTO.fromArray(users);
+
+      return this.sendResponse(res, new SuccessResponse(200, 'Users fetched successfully.', usersDTO));
     };
   }
 
@@ -22,8 +26,9 @@ class UserController extends BaseController {
     return async (req, res) => {
       const { id } = req.params;
       const user = await this.userService.getById(id);
+      const userDTO = new UserDTO(user).toJson();
 
-      return this.sendResponse(res, new SuccessResponse(200, 'User fetched successfully.', user));
+      return this.sendResponse(res, new SuccessResponse(200, 'User fetched successfully.', userDTO));
     };
   }
 
@@ -44,8 +49,9 @@ class UserController extends BaseController {
 
       const hashedPassword = await this.authService.hashPassword(password);
       const updatedUser = await this.userService.update(id, { ...req.body, password: hashedPassword }, true);
+      const updatedUserDTO = new UserDTO(updatedUser).toJson();
 
-      return this.sendResponse(res, new SuccessResponse(200, 'User updated successfully.', updatedUser));
+      return this.sendResponse(res, new SuccessResponse(200, 'User updated successfully.', updatedUserDTO));
     };
   }
 
