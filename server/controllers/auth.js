@@ -24,7 +24,9 @@ class AuthController extends BaseController {
       }
 
       if (user.passwordReset) {
-        throw new ErrorResponse('controller', 401, 'You haven\'t set a new password.');
+        throw new ErrorResponse('controller', 401, 'You haven\'t set a new password.', {
+          passwordReset: true,
+        });
       }
 
       const token = this.authService.createToken(user._id);

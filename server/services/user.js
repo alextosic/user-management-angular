@@ -29,11 +29,16 @@ class UserService {
     return this.repository.create({ email, firstName, lastName, password, role: 1 });
   }
 
-  async update(id, data) {
+  async update(id, data, updatePassword) {
     await this.getById(id);
 
-    const { firstName, lastName, email } = data;
-    return this.repository.updateById(id, { firstName, lastName, email });
+    const { firstName, lastName, email, password } = data;
+    return this.repository.updateById(id, {
+      firstName,
+      lastName,
+      email,
+      ...(updatePassword && { password }),
+    });
   }
 
   async resetPassword(email) {
