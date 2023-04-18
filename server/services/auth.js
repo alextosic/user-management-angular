@@ -6,7 +6,7 @@ const ErrorResponse = require('../responses/error');
 class AuthService {
   async hashPassword(password) {
     try {
-      return bcrypt.hash(password, process.env.PASSWORD_HASH_ROUNDS);
+      return bcrypt.hash(password, parseInt(process.env.PASSWORD_HASH_ROUNDS, 10));
     } catch (err) {
       throw new ErrorResponse('service', 500, 'Error generating password.', err.message);
     }

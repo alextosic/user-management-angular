@@ -1,16 +1,20 @@
 const userService = require('../services/user');
 const authService = require('../services/auth');
+const roleService = require('../services/role');
 const BaseController = require('./base');
 
 const SuccessResponse = require('../responses/success');
 const UserDTO = require('../dtos/user');
 
+const { defaultRoles } = require('../constants/role');
+
 class UserController extends BaseController {
-  constructor(userServiceParam, authServiceParam) {
+  constructor(userServiceParam, authServiceParam, roleServiceParam) {
     super();
 
     this.userService = userServiceParam;
     this.authService = authServiceParam;
+    this.roleService = roleServiceParam;
   }
 
   getAllUsers() {
@@ -41,8 +45,9 @@ class UserController extends BaseController {
       return this.handleRequest(async () => {
         const { password } = req.body;
         const hashedPassword = await this.authService.hashPassword(password);
+        const userRole = await this.roleService.getByName(defaultRoles.USER);
 
-        await this.userService.create({ ...req.body, password: hashedPassword });
+        await this.userService.create({ ...req.body, role: userRole._id, password: hashedPassword });
         return this.sendResponse(res, new SuccessResponse(201, 'User created successfully.'));
       }, next);
     };
@@ -75,4 +80,4 @@ class UserController extends BaseController {
   }
 }
 
-module.exports = new UserController(userService, authService);
+module.exports = new UserController(userService, authService, roleService);
