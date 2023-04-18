@@ -1,8 +1,6 @@
 const ErrorResponse = require('../../responses/error');
 
 class BaseRepository {
-  private model;
-
   constructor(model) {
     this.model = model;
   }

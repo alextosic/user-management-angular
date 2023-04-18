@@ -11,31 +11,37 @@ class ProfileController extends BaseController {
   }
 
   getProfile() {
-    return async (req, res) => {
-      const { id } = req.params;
-      const profile = await this.userService.getById(id);
-      const profileDTO = new ProfileDTO(profile).toJson();
+    return async (req, res, next) => {
+      return this.handleRequest(async () => {
+        const { id } = req.params;
+        const profile = await this.userService.getById(id);
+        const profileDTO = new ProfileDTO(profile).toJson();
 
-      return this.sendResponse(res, new SuccessResponse(200, 'Profile fetched successfully.', profileDTO));
+        return this.sendResponse(res, new SuccessResponse(200, 'Profile fetched successfully.', profileDTO));
+      }, next);
     };
   }
 
   updateProfile() {
-    return async (req, res) => {
-      const { id } = req.params;
-      const updatedProfile = await this.userService.update(id, req.body);
-      const updatedProfileDTO = new ProfileDTO(updatedProfile).toJson();
+    return async (req, res, next) => {
+      return this.handleRequest(async () => {
+        const { id } = req.params;
+        const updatedProfile = await this.userService.update(id, req.body);
+        const updatedProfileDTO = new ProfileDTO(updatedProfile).toJson();
 
-      return this.sendResponse(res, new SuccessResponse(200, 'Profile updated successfully.', updatedProfileDTO));
+        return this.sendResponse(res, new SuccessResponse(200, 'Profile updated successfully.', updatedProfileDTO));
+      }, next);
     };
   }
 
   deleteProfile() {
-    return async (req, res) => {
-      const { id } = req.params;
-      await this.userService.delete(id);
+    return async (req, res, next) => {
+      return this.handleRequest(async () => {
+        const { id } = req.params;
+        await this.userService.delete(id);
 
-      return this.sendResponse(res, new SuccessResponse(200, 'Profile deleted successfully.'));
+        return this.sendResponse(res, new SuccessResponse(200, 'Profile deleted successfully.'));
+      }, next);
     };
   }
 }
