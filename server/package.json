@@ -4,7 +4,10 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "start:dev": "nodemon ./bin/www"
+    "start:dev": "nodemon ./bin/www",
+    "migrate:up": "migrate-mongo up",
+    "migrate:down": "migrate-mongo down",
+    "migrate:create": "migrate-mongo create"
   },
   "dependencies": {
     "bcrypt": "^5.1.0",
@@ -19,6 +22,7 @@
     "morgan": "~1.9.1"
   },
   "devDependencies": {
+    "migrate-mongo": "^9.0.0",
     "nodemon": "^2.0.22"
   }
 }

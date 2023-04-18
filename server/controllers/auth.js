@@ -1,16 +1,20 @@
 const userService = require('../services/user');
 const authService = require('../services/auth');
+const roleService = require('../services/role');
 const BaseController = require('./base');
 
 const ErrorResponse = require('../responses/error');
 const SuccessResponse = require('../responses/success');
 
+const { defaultRoles } = require('../constants/role');
+
 class AuthController extends BaseController {
-  constructor(userServiceParam, authServiceParam) {
+  constructor(userServiceParam, authServiceParam, roleServiceParam) {
     super();
 
     this.userService = userServiceParam;
     this.authService = authServiceParam;
+    this.roleService = roleServiceParam;
   }
 
   login() {
@@ -48,8 +52,9 @@ class AuthController extends BaseController {
       return this.handleRequest(async () => {
         const { password } = req.body;
         const hashedPassword = await this.authService.hashPassword(password);
+        const userRole = await this.roleService.getByName(defaultRoles.USER);
 
-        await this.userService.create({ ...req.body, password: hashedPassword });
+        await this.userService.create({ ...req.body, password: hashedPassword, role: userRole._id });
         return this.sendResponse(res, new SuccessResponse(201, 'Account created successfully.'));
       }, next);
     };
@@ -77,4 +82,4 @@ class AuthController extends BaseController {
   }
 }
 
-module.exports = new AuthController(userService, authService);
+module.exports = new AuthController(userService, authService, roleService);

@@ -2,8 +2,8 @@ const BaseRepository = require('./base');
 const UserModel = require('../models/user');
 
 class UserRepository extends BaseRepository {
-  constructor() {
-    super(UserModel);
+  constructor(userModel) {
+    super(userModel);
   }
 
   async findAll() {
@@ -27,4 +27,4 @@ class UserRepository extends BaseRepository {
   }
 }
 
-module.exports = new UserRepository();
+module.exports = new UserRepository(UserModel);

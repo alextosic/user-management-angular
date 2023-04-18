@@ -19,14 +19,14 @@ class UserService {
   }
 
   async create(data) {
-    const { email, firstName, lastName, password } = data;
+    const { email, firstName, lastName, password, role } = data;
     const user = await this.getByEmail(email);
 
     if (user) {
       throw new ErrorResponse('service', 409, 'User with that email address already exists.');
     }
 
-    return this.repository.create({ email, firstName, lastName, password, role: 1 });
+    return this.repository.create({ email, firstName, lastName, password, role });
   }
 
   async update(id, data, updatePassword) {
