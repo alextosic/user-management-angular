@@ -2,7 +2,7 @@ const BaseValidator = require('./base');
 
 class AuthValidator extends BaseValidator {
   validateLogin() {
-    return this.validate([this.validateEmail(true), this.validatePassword(true)]);
+    return this.validate([this.validateEmail(true)]);
   }
 
   validateRegister() {
