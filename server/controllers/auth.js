@@ -23,17 +23,17 @@ class AuthController extends BaseController {
       const user = await this.userService.getByEmail(email);
 
       if (!user) {
-        throw new ErrorResponse('controller', 401, 'Email or password invalid.');
+        throw new ErrorResponse('controller', 400, 'Email or password invalid.');
       }
 
       const passwordValid = await this.authService.verifyPassword(password, user.password);
 
       if (!passwordValid) {
-        throw new ErrorResponse('controller', 401, 'Email or password invalid.');
+        throw new ErrorResponse('controller', 400, 'Email or password invalid.');
       }
 
       if (user.passwordReset) {
-        throw new ErrorResponse('controller', 401, 'You haven\'t set a new password.', {
+        throw new ErrorResponse('controller', 400, 'You haven\'t set a new password.', {
           passwordReset: true,
         });
       }

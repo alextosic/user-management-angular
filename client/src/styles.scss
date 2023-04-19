@@ -13,3 +13,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   width: 100vw;
   height: 100vh;
 }
+
+.mat-mdc-snack-bar-container {
+  &.snackbar-warn {
+    --mdc-snackbar-container-color: #ff4081;
+    --mdc-snackbar-supporting-text-color: #fff;
+  }
+}
