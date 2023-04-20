@@ -4,7 +4,8 @@ import { tap } from 'rxjs';
 
 import { environment } from '../../environments/environment';
 import { HttpResponseModel } from '../http-response.model';
-import { LoginDataModel } from './login/login-data.model';
+import { LoginRequestModel, LoginResponseModel } from './login/login.model';
+import { RegisterRequestModel } from './register/register.model';
 
 @Injectable({
   providedIn: 'root',
@@ -31,8 +32,10 @@ export class AuthService {
     localStorage.setItem('cyrillic-demo-user-token', token);
   }
 
-  login(email: string, password: string) {
-    return this.httpClient.post<HttpResponseModel<LoginDataModel>>(`${environment.apiUrl}/auth/login`, { email, password })
+  login(data: LoginRequestModel) {
+    const url = `${environment.apiUrl}/auth/login`;
+
+    return this.httpClient.post<HttpResponseModel<LoginResponseModel>>(url, data)
       .pipe(
         tap({
           next: (result) => {
@@ -41,6 +44,11 @@ export class AuthService {
             }
           },
         })
-      )
+      );
+  }
+
+  register(data: RegisterRequestModel) {
+    const url = `${environment.apiUrl}/auth/register`;
+    return this.httpClient.post<HttpResponseModel<LoginResponseModel>>(url, data);
   }
 }
