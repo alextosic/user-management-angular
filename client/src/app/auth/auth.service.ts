@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { tap } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 
 import { environment } from '../../environments/environment';
 import { HttpResponseModel } from '../http-response.model';
@@ -32,6 +32,11 @@ export class AuthService {
     localStorage.setItem('cyrillic-demo-user-token', token);
   }
 
+  deleteToken() {
+    this.token = '';
+    localStorage.removeItem('cyrillic-demo-user-token');
+  }
+
   login(data: LoginRequestModel) {
     const url = `${environment.apiUrl}/auth/login`;
 
@@ -49,6 +54,13 @@ export class AuthService {
 
   register(data: RegisterRequestModel) {
     const url = `${environment.apiUrl}/auth/register`;
-    return this.httpClient.post<HttpResponseModel<LoginResponseModel>>(url, data);
+    return this.httpClient.post<HttpResponseModel<any>>(url, data);
+  }
+
+  logout() {
+    return new Observable<void>((subscriber) => {
+      this.deleteToken();
+      subscriber.next();
+    });
   }
 }
