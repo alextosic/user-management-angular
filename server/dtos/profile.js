@@ -1,10 +1,10 @@
 class ProfileDTO {
-  constructor({ _id, email, firstName, lastName, role: { name: roleName } }) {
+  constructor({ _id, email, firstName, lastName, role }) {
     this.id = _id;
     this.email = email;
     this.firstName = firstName;
     this.lastName = lastName;
-    this.role = roleName;
+    this.role = role?.name;
   }
 
   toJson() {
