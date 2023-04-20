@@ -4,7 +4,7 @@ import { map, Observable, Subject, tap } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
 import { HttpResponseModel } from '../../http-response.model';
-import { ProfileModel } from './profile.model';
+import { ProfileModel, ProfileUpdateModel } from './profile.model';
 
 @Injectable({
   providedIn: 'root',
@@ -37,6 +37,26 @@ export class ProfileService {
           next: (profileData) => {
             if (profileData) {
               this.profileData = profileData;
+              this.profileDataChanged$.next(profileData);
+            }
+          },
+        })
+      );
+  }
+
+  updateProfile(data: ProfileUpdateModel) {
+    const url = `${environment.apiUrl}/profile`;
+
+    return this.httpClient.patch<HttpResponseModel<ProfileModel>>(url, data)
+      .pipe(
+        map(response => response?.data)
+      )
+      .pipe(
+        tap({
+          next: (profileData) => {
+            if (profileData) {
+              this.profileData = profileData;
+              this.profileDataChanged$.next(profileData);
             }
           },
         })

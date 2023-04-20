@@ -16,10 +16,13 @@ export class HeaderComponent implements OnInit {
   constructor(private router: Router, private authService: AuthService, private profileService: ProfileService) {}
 
   ngOnInit() {
-    this.profileService.getProfile()
-      .subscribe((profileData) => {
-        this.profileData = profileData;
-      });
+    this.profileService.getProfile().subscribe((profileData) => {
+      this.profileData = profileData;
+    });
+
+    this.profileService.profileDataChanged$.subscribe((profileData) => {
+      this.profileData = profileData;
+    });
   }
 
   logout() {
@@ -27,6 +30,4 @@ export class HeaderComponent implements OnInit {
       await this.router.navigate(['/login']);
     });
   }
-
-  protected readonly undefined = undefined;
 }

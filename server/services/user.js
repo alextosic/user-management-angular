@@ -33,11 +33,13 @@ class UserService {
     await this.getById(id);
 
     const { firstName, lastName, password } = data;
-    return this.repository.updateById(id, {
+    await this.repository.updateById(id, {
       firstName,
       lastName,
       ...(updatePassword && { password }),
     });
+
+    return this.getById(id);
   }
 
   async resetPassword(email) {
