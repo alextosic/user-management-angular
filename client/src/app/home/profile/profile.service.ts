@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map, Observable, Subject, tap } from 'rxjs';
+import { map, Observable, BehaviorSubject, tap } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
 import { HttpResponseModel } from '../../http-response.model';
@@ -11,7 +11,7 @@ import { ProfileModel, ProfileUpdateModel } from './profile.model';
 })
 export class ProfileService {
   profileData: ProfileModel | undefined;
-  profileDataChanged$ = new Subject<ProfileModel | undefined>();
+  profileDataChanged$ = new BehaviorSubject<ProfileModel | undefined>(undefined);
 
   constructor(private httpClient: HttpClient) {}
 
@@ -61,5 +61,10 @@ export class ProfileService {
           },
         })
       );
+  }
+
+  deleteProfile() {
+    this.profileData = undefined;
+    this.profileDataChanged$.next(undefined);
   }
 }

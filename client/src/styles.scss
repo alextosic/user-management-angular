@@ -40,6 +40,8 @@ body {
 }
 
 .mat-mdc-snack-bar-container {
+  margin-top: 5rem !important;
+
   &.snackbar-success {
     --mdc-snackbar-container-color: #3f51b5;
     --mdc-snackbar-supporting-text-color: #fff;

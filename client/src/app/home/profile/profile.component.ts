@@ -16,18 +16,15 @@ export class ProfileComponent implements OnInit {
   constructor(private profileService: ProfileService) {}
 
   ngOnInit() {
-    this.profileService.getProfile().subscribe((profileData) => this.initData(profileData));
-    this.profileService.profileDataChanged$.subscribe((profileData) => this.initData(profileData));
-  }
+    this.profileService.profileDataChanged$.subscribe((profileData) => {
+      this.profileForm = new FormGroup<any>({
+        email: new FormControl(profileData?.email),
+        firstName: new FormControl(profileData?.firstName),
+        lastName: new FormControl(profileData?.lastName),
+      });
 
-  initData(profileData: ProfileModel | undefined) {
-    this.profileForm = new FormGroup<any>({
-      email: new FormControl(profileData?.email),
-      firstName: new FormControl(profileData?.firstName),
-      lastName: new FormControl(profileData?.lastName),
+      this.disableEdit();
     });
-
-    this.disableEdit();
   }
 
   enableEdit() {

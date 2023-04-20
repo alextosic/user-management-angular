@@ -14,8 +14,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 
 import { RoutingModule } from './routing/routing.module';
-import { AuthTokenInterceptor } from './auth/auth-token.interceptor';
-import { AuthMessageInterceptor } from './auth/auth-message.interceptor';
+import { AuthRequestInterceptor } from './auth/auth-request.interceptor';
+import { AuthResponseInterceptor } from './auth/auth-response.interceptor';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './auth/login/login.component';
@@ -54,8 +54,8 @@ import { AdminComponent } from './admin/admin.component';
     RoutingModule,
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthTokenInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: AuthMessageInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthRequestInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthResponseInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
 })

@@ -22,9 +22,6 @@ export class LoginComponent {
       password: form.value.password,
     };
 
-    this.authService.login(data)
-      .subscribe(async () => {
-        await this.router.navigate(['/']);
-      });
+    this.authService.login(data).subscribe();
   }
 }
