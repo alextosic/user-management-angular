@@ -9,6 +9,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 
 import { RoutingModule } from './routing/routing.module';
 import { AuthTokenInterceptor } from './auth/auth-token.interceptor';
@@ -18,7 +21,9 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { HomeComponent } from './home/home.component';
-import { ProfileComponent } from './profile/profile.component';
+import { HeaderComponent } from './home/header/header.component';
+import { ProfileComponent } from './home/profile/profile.component';
+import { AdminComponent } from './admin/admin.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +31,9 @@ import { ProfileComponent } from './profile/profile.component';
     LoginComponent,
     RegisterComponent,
     HomeComponent,
+    HeaderComponent,
     ProfileComponent,
+    AdminComponent,
   ],
   imports: [
     BrowserModule,
@@ -39,6 +46,9 @@ import { ProfileComponent } from './profile/profile.component';
     MatInputModule,
     MatButtonModule,
     MatSnackBarModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatMenuModule,
 
     RoutingModule,
   ],

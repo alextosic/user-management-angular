@@ -1,0 +1,9 @@
+.content {
+  overflow: auto;
+}
+
+mat-card {
+  margin: 2rem auto;
+  width: 80%;
+  min-height: calc(100vh - 8rem);
+}

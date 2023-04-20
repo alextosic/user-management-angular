@@ -16,9 +16,27 @@ body {
   justify-content: center;
 }
 
+.full-width {
+  width: 100%;
+}
+
+.no-margins {
+  margin: 0 !important;
+}
+
 .full-screen {
   width: 100vw;
   height: 100vh;
+}
+
+.space-between {
+  display: flex;
+  justify-content: space-between;
+}
+
+.align-items {
+  display: flex;
+  align-items: center;
 }
 
 .mat-mdc-snack-bar-container {
