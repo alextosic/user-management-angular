@@ -1,7 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: #eee;
+}
 
 .centered {
   display: flex;
@@ -15,7 +22,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 .mat-mdc-snack-bar-container {
-  &.snackbar-warn {
+  &.snackbar-success {
+    --mdc-snackbar-container-color: #3f51b5;
+    --mdc-snackbar-supporting-text-color: #fff;
+  }
+
+  &.snackbar-error {
     --mdc-snackbar-container-color: #ff4081;
     --mdc-snackbar-supporting-text-color: #fff;
   }

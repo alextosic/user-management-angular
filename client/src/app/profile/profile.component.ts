@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'cd-profile',
+  selector: 'cdp-profile',
   templateUrl: './profile.component.html',
 })
 export class ProfileComponent {}

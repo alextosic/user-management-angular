@@ -10,18 +10,22 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
-import { AppRoutingModule } from './app-routing.module';
+import { RoutingModule } from './routing/routing.module';
 import { AuthTokenInterceptor } from './auth/auth-token.interceptor';
-import { AuthErrorInterceptor } from './auth/auth-error.interceptor';
+import { AuthMessageInterceptor } from './auth/auth-message.interceptor';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './auth/login/login.component';
+import { RegisterComponent } from './auth/register/register.component';
+import { HomeComponent } from './home/home.component';
 import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
+    RegisterComponent,
+    HomeComponent,
     ProfileComponent,
   ],
   imports: [
@@ -36,11 +40,11 @@ import { ProfileComponent } from './profile/profile.component';
     MatButtonModule,
     MatSnackBarModule,
 
-    AppRoutingModule,
+    RoutingModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthTokenInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: AuthErrorInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthMessageInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
 })

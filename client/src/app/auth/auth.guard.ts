@@ -11,7 +11,7 @@ export const AuthLoggedInGuard: CanActivateFn = () => {
   if (loggedIn) {
     return true;
   } else {
-    return router.navigate(['/']);
+    return router.navigate(['/login']);
   }
 };
 
@@ -23,6 +23,6 @@ export const AuthLoggedOutGuard: CanActivateFn = () => {
   if (!loggedIn) {
     return true;
   } else {
-    return router.navigate(['/profile']);
+    return router.navigate(['/']);
   }
 };

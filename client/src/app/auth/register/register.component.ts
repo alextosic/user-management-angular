@@ -5,11 +5,11 @@ import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 
 @Component({
-  selector: 'cdp-login',
-  templateUrl: './login.component.html',
+  selector: 'cdp-register',
+  templateUrl: './register.component.html',
   styleUrls: ['../auth.styles.scss'],
 })
-export class LoginComponent {
+export class RegisterComponent {
   constructor(private authService: AuthService, private router: Router) {}
 
   onSubmit(form: NgForm) {
@@ -20,11 +20,14 @@ export class LoginComponent {
     const data = {
       email: form.value.email,
       password: form.value.password,
+      confirmPassword: form.value.confirmPassword,
+      firstName: form.value.firstName,
+      lastName: form.value.lastName,
     };
 
-    this.authService.login(data)
+    this.authService.register(data)
       .subscribe(async () => {
-        await this.router.navigate(['/']);
+        await this.router.navigate(['/login']);
       });
   }
 }
