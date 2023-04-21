@@ -22,6 +22,7 @@ import { HttpRequestInterceptor } from './http-request.interceptor';
 import { HttpResponseInterceptor } from './http-response.interceptor';
 
 import { AppComponent } from './app.component';
+import { AuthComponent } from './auth/auth.component';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { HomeComponent } from './home/home.component';
@@ -30,10 +31,13 @@ import { ProfileComponent } from './home/profile/profile.component';
 import { AdminComponent } from './admin/admin.component';
 import { UserDeleteDialog } from './admin/user/user-delete.dialog';
 import { UserListComponent } from './admin/user/user-list/user-list.component';
+import { UserCreateComponent } from './admin/user/user-create/user-create.component';
+import { CreateFormComponent } from './shared/create-form.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    AuthComponent,
     LoginComponent,
     RegisterComponent,
     HomeComponent,
@@ -42,6 +46,8 @@ import { UserListComponent } from './admin/user/user-list/user-list.component';
     AdminComponent,
     UserListComponent,
     UserDeleteDialog,
+    CreateFormComponent,
+    UserCreateComponent,
   ],
   imports: [
     BrowserModule,

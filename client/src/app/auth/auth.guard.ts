@@ -12,7 +12,7 @@ export const AuthLoggedInGuard: CanActivateFn = () => {
   return profileService.getProfile()
     .pipe(
       map((profile): boolean => !!profile),
-      catchError((): Promise<boolean> => router.navigate(['/login']))
+      catchError((): Promise<boolean> => router.navigate(['/auth/login']))
     );
 };
 

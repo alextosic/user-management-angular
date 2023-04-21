@@ -1,0 +1,17 @@
+mat-form-field {
+  width: 100%;
+
+  &:not(:last-child) {
+    margin-bottom: 1rem;
+  }
+}
+
+button {
+  &.normal {
+    margin-top: 2rem;
+  }
+
+  &.full {
+    width: 100%;
+  }
+}

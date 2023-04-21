@@ -1,0 +1,29 @@
+mat-card {
+  width: 450px;
+  padding: 1rem;
+}
+
+mat-card-header {
+  margin-bottom: 1rem;
+}
+
+mat-form-field {
+  width: 100%;
+
+  &:not(:last-child) {
+    margin-bottom: 1rem;
+  }
+}
+
+mat-card-footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
+form {
+  button {
+    width: 100%;
+  }
+}

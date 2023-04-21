@@ -61,7 +61,7 @@ export class AuthService {
       .pipe(
         tap({
           next: async () => {
-            await this.router.navigate(['/login']);
+            await this.router.navigate(['/auth/login']);
           }
         })
       );
@@ -72,7 +72,7 @@ export class AuthService {
       this.deleteToken();
       this.profileService.deleteProfile();
 
-      this.router.navigate(['/login'])
+      this.router.navigate(['/auth/login'])
         .then(() => subscriber.next());
     });
   }

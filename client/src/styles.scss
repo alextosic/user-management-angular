@@ -45,7 +45,11 @@ body {
 }
 
 .mat-mdc-snack-bar-container {
-  margin-top: 5rem !important;
+  position: fixed !important;
+  top: 0 !important;
+  right: 0 !important;
+  left: auto !important;
+  bottom: auto !important;
 
   &.snackbar-success {
     --mdc-snackbar-container-color: #3f51b5;
@@ -55,5 +59,11 @@ body {
   &.snackbar-error {
     --mdc-snackbar-container-color: #ff4081;
     --mdc-snackbar-supporting-text-color: #fff;
+  }
+}
+
+.has-header {
+  .mat-mdc-snack-bar-container {
+    top: 4rem !important;
   }
 }
