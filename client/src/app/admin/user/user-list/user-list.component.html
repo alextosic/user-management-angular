@@ -1,0 +1,47 @@
+<div class="page">
+  <div class="mat-headline-4">User List</div>
+
+  <div class="page-content">
+    <mat-table [dataSource]="userList">
+
+      <ng-container matColumnDef="email">
+        <mat-header-cell *matHeaderCellDef>Email</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{ element.email }}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="firstName">
+        <mat-header-cell *matHeaderCellDef>First Name</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{ element.firstName }}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="lastName">
+        <mat-header-cell *matHeaderCellDef>Last Name</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{ element.lastName }}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef class="align-center">Actions</mat-header-cell>
+        <mat-cell *matCellDef="let element" class="align-center">
+          <a mat-icon-button [routerLink]="'/admin/user/' + element.id" matTooltip="Edit">
+            <mat-icon color="primary">edit</mat-icon>
+          </a>
+          <button mat-icon-button (click)="deleteUser(element.id, element.email)" matTooltip="Delete">
+            <mat-icon color="warn">delete</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="columns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: columns;"></mat-row>
+    </mat-table>
+
+    <mat-paginator
+      [pageSizeOptions]="[1, 5, 10, 20]"
+      [pageSize]="perPage"
+      [length]="total"
+      [pageIndex]="page"
+      showFirstLastButtons
+      (page)="onPageEvent($event)"
+    ></mat-paginator>
+  </div>
+</div>

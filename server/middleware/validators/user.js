@@ -5,6 +5,10 @@ class UserValidator extends BaseValidator {
     return this.validate([this.validateId()]);
   }
 
+  validateGetAllUsers() {
+    return this.validate([this.validatePage(), this.validatePerPage()]);
+  }
+
   validateCreateUser() {
     return this.validate([
       this.validateFirstName(true),

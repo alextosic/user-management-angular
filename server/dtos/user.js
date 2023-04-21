@@ -8,6 +8,7 @@ class UserDTO {
 
   toJson() {
     return {
+      id: this.id,
       email: this.email,
       firstName: this.firstName,
       lastName: this.lastName,
@@ -15,7 +16,7 @@ class UserDTO {
   }
 
   static fromArray(userArray) {
-    return userArray.map(user => new UserDTO(user).toJson());
+    return userArray.map((user) => new UserDTO(user).toJson());
   }
 }
 

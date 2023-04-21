@@ -8,19 +8,17 @@ import {
   HttpResponse
 } from '@angular/common/http';
 
-import { MessageService } from '../message/message.service';
-import { AuthService } from './auth.service';
-import { HttpResponseModel } from '../http-response.model';
+import { MessageService } from './message/message.service';
+import { AuthService } from './auth/auth.service';
+import { HttpResponseModel } from './http-response.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthResponseInterceptor implements HttpInterceptor {
+export class HttpResponseInterceptor implements HttpInterceptor {
   constructor(private messageService: MessageService, private authService: AuthService) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    this.messageService.hide();
-
     return next.handle(req)
       .pipe(
         tap({

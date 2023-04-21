@@ -5,6 +5,14 @@ class BaseRepository {
     this.model = model;
   }
 
+  async count(query) {
+    try {
+      return this.model.count(query);
+    } catch (err) {
+      throw new ErrorResponse('database', 500, 'Database error.');
+    }
+  }
+
   async find(query, options, include) {
     try {
       return this.model.find(query, null, options).populate(include);

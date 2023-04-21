@@ -1,4 +1,4 @@
-const { body, param, validationResult } = require('express-validator');
+const { body, param, query, validationResult } = require('express-validator');
 
 const ErrorResponse = require('../../responses/error');
 const { strongPasswordValues } = require('../../constants/validation');
@@ -14,10 +14,12 @@ class BaseValidator {
     return param('id')
       .exists()
       .withMessage('ID is required.')
+      .isAlphanumeric()
+      .withMessage('ID can only contain letters and numbers')
       .escape()
       .trim()
-      .isUUID()
-      .withMessage('ID needs to be in the UUID format.');
+      .isLength({ min: 24, max: 24 })
+      .withMessage('ID needs to be exactly 24 characters long.');
   }
 
   validateFirstName(required) {
@@ -82,6 +84,30 @@ class BaseValidator {
         .custom((value, { req }) => value === req.body.password)
         .withMessage('Confirm password should match the password.'),
       'Confirm password',
+      required,
+    );
+  }
+
+  validatePage(required) {
+    return this.isRequired(
+      query('page')
+        .escape()
+        .trim()
+        .isNumeric()
+        .withMessage('Page query should be a number.'),
+      'Page query',
+      required,
+    );
+  }
+
+  validatePerPage(required) {
+    return this.isRequired(
+      query('perPage')
+        .escape()
+        .trim()
+        .isNumeric()
+        .withMessage('Per page query should be a number.'),
+      'Per page query',
       required,
     );
   }

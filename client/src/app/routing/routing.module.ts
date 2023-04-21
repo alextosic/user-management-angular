@@ -6,6 +6,7 @@ import { RegisterComponent } from '../auth/register/register.component';
 import { HomeComponent } from '../home/home.component';
 import { ProfileComponent } from '../home/profile/profile.component';
 import { AdminComponent } from '../admin/admin.component';
+import { UserListComponent } from '../admin/user/user-list/user-list.component';
 
 import { AuthLoggedInGuard, AuthLoggedOutGuard } from '../auth/auth.guard';
 import { AdminGuard } from '../admin/admin.guard';
@@ -38,6 +39,17 @@ const routes: Routes = [
         path: 'admin',
         component: AdminComponent,
         canActivate: [AdminGuard],
+        children: [
+          {
+            path: 'user',
+            title: 'User List',
+            component: UserListComponent,
+          },
+          {
+            path: '**',
+            redirectTo: 'user',
+          },
+        ],
       },
     ],
   },
