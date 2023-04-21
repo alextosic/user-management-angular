@@ -39,7 +39,14 @@ body {
   align-items: center;
 }
 
+.page {
+  width: 80%;
+  margin: 2rem auto;
+}
+
 .mat-mdc-snack-bar-container {
+  margin-top: 5rem !important;
+
   &.snackbar-success {
     --mdc-snackbar-container-color: #3f51b5;
     --mdc-snackbar-supporting-text-color: #fff;

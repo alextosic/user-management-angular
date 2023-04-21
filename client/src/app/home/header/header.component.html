@@ -1,17 +1,23 @@
 <mat-toolbar color="primary">
   <div class="space-between align-items full-width">
-    <div class="mat-headline-5 no-margins">Cyrillic Demo Project</div>
     <div class="align-items">
-      <span class="mat-body-1 no-margins" *ngIf="profileData?.firstName">
-        Welcome, <span class="">{{ profileData?.firstName }}</span>
+      <div class="mat-headline-5 no-margins">Cyrillic Demo Project</div>
+    </div>
+    <div class="align-items">
+      <span class="mat-body-1 no-margins" *ngIf="(profileData | async)?.firstName">
+        Welcome, <span class="">{{ (profileData | async)?.firstName }}</span>
       </span>
       <button mat-icon-button class="account-button" [matMenuTriggerFor]="accountMenu">
         <mat-icon>account_circle</mat-icon>
       </button>
       <mat-menu #accountMenu="matMenu">
         <a mat-menu-item [routerLink]="['/']">
-          <mat-icon>supervisor_account</mat-icon>
+          <mat-icon>account_circle</mat-icon>
           <span>Profile</span>
+        </a>
+        <a mat-menu-item [routerLink]="['/admin/user']" *ngIf="(profileData | async)?.role === 'ADMIN'">
+          <mat-icon>supervisor_account</mat-icon>
+          <span>User Management</span>
         </a>
         <button mat-menu-item (click)="logout()">
           <mat-icon>exit_to_app</mat-icon>

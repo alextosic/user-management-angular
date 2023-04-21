@@ -12,10 +12,14 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { RoutingModule } from './routing/routing.module';
-import { AuthTokenInterceptor } from './auth/auth-token.interceptor';
-import { AuthMessageInterceptor } from './auth/auth-message.interceptor';
+import { HttpRequestInterceptor } from './http-request.interceptor';
+import { HttpResponseInterceptor } from './http-response.interceptor';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './auth/login/login.component';
@@ -24,6 +28,8 @@ import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './home/header/header.component';
 import { ProfileComponent } from './home/profile/profile.component';
 import { AdminComponent } from './admin/admin.component';
+import { UserDeleteDialog } from './admin/user/user-delete.dialog';
+import { UserListComponent } from './admin/user/user-list/user-list.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +40,8 @@ import { AdminComponent } from './admin/admin.component';
     HeaderComponent,
     ProfileComponent,
     AdminComponent,
+    UserListComponent,
+    UserDeleteDialog,
   ],
   imports: [
     BrowserModule,
@@ -50,12 +58,16 @@ import { AdminComponent } from './admin/admin.component';
     MatToolbarModule,
     MatIconModule,
     MatMenuModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatTooltipModule,
+    MatDialogModule,
 
     RoutingModule,
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthTokenInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: AuthMessageInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: HttpRequestInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: HttpResponseInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
 })

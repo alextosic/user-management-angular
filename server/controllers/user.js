@@ -20,10 +20,13 @@ class UserController extends BaseController {
   getAllUsers() {
     return async (req, res, next) => this.handleRequest(async () => {
       const adminRole = await this.roleService.getByName(defaultRoles.ADMIN);
-      const users = await this.userService.getAllNotAdmin(adminRole._id);
-      const usersDTO = UserDTO.fromArray(users);
+      const usersResult = await this.userService.getAllNotAdmin(adminRole._id, req.query);
+      const usersDTO = UserDTO.fromArray(usersResult.users);
 
-      return this.sendResponse(res, new SuccessResponse(200, 'Users fetched successfully.', usersDTO));
+      return this.sendResponse(res, new SuccessResponse(200, 'Users fetched successfully.', {
+        ...usersResult,
+        users: usersDTO,
+      }));
     }, next);
   }
 

@@ -14,8 +14,14 @@ class UserService {
     return this.repository.findByEmail(email);
   }
 
-  async getAllNotAdmin(adminRoleId) {
-    return this.repository.findAllNotAdmin(adminRoleId);
+  async getAllNotAdmin(adminRoleId, pagination) {
+    const users = await this.repository.findAllNotAdmin(adminRoleId, pagination);
+    const total = await this.repository.countAllNotAdmin(adminRoleId);
+
+    return {
+      users,
+      total,
+    };
   }
 
   async create(data) {

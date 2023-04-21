@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
 
 import { environment } from '../../environments/environment';
 import { HttpResponseModel } from '../http-response.model';
 import { LoginRequestModel, LoginResponseModel } from './login/login.model';
 import { RegisterRequestModel } from './register/register.model';
+import { ProfileService } from '../home/profile/profile.service';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +15,7 @@ import { RegisterRequestModel } from './register/register.model';
 export class AuthService {
   private token = '';
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient, private router: Router, private profileService: ProfileService) {}
 
   getToken() {
     if (!this.token) {
@@ -43,9 +45,10 @@ export class AuthService {
     return this.httpClient.post<HttpResponseModel<LoginResponseModel>>(url, data)
       .pipe(
         tap({
-          next: (result) => {
+          next: async (result) => {
             if (result?.data?.token) {
               this.saveToken(result.data.token);
+              await this.router.navigate(['/']);
             }
           },
         })
@@ -54,13 +57,23 @@ export class AuthService {
 
   register(data: RegisterRequestModel) {
     const url = `${environment.apiUrl}/auth/register`;
-    return this.httpClient.post<HttpResponseModel<any>>(url, data);
+    return this.httpClient.post<HttpResponseModel<any>>(url, data)
+      .pipe(
+        tap({
+          next: async () => {
+            await this.router.navigate(['/login']);
+          }
+        })
+      );
   }
 
   logout() {
     return new Observable<void>((subscriber) => {
       this.deleteToken();
-      subscriber.next();
+      this.profileService.deleteProfile();
+
+      this.router.navigate(['/login'])
+        .then(() => subscriber.next());
     });
   }
 }

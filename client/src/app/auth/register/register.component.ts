@@ -25,9 +25,6 @@ export class RegisterComponent {
       lastName: form.value.lastName,
     };
 
-    this.authService.register(data)
-      .subscribe(async () => {
-        await this.router.navigate(['/login']);
-      });
+    this.authService.register(data).subscribe();
   }
 }

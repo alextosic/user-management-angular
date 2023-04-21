@@ -6,8 +6,13 @@ class UserRepository extends BaseRepository {
     super(userModel);
   }
 
-  async findAllNotAdmin(adminRoleId) {
-    return super.find({ role: { $ne: adminRoleId } }, null, 'role');
+  async findAllNotAdmin(adminRoleId, pagination) {
+    const { page = 0, perPage = 0 } = pagination;
+    return super.find({ role: { $ne: adminRoleId } }, { skip: page * perPage, limit: perPage }, 'role');
+  }
+
+  async countAllNotAdmin(adminRoleId) {
+    return super.count({ role: { $ne: adminRoleId } });
   }
 
   async findById(id) {
