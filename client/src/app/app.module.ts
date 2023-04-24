@@ -28,6 +28,8 @@ import { UpdateFormComponent } from './shared/update-form/update-form.component'
 import { AuthComponent } from './auth/auth.component';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
+import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
+import { UpdatePasswordComponent } from './auth/update-password/update-password.component';
 import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './home/header/header.component';
 import { ProfileComponent } from './home/profile/profile.component';
@@ -45,6 +47,8 @@ import { UserUpdateComponent } from './admin/user/user-update/user-update.compon
     AuthComponent,
     LoginComponent,
     RegisterComponent,
+    ForgotPasswordComponent,
+    UpdatePasswordComponent,
     HomeComponent,
     HeaderComponent,
     ProfileComponent,

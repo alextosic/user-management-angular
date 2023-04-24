@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Observable, tap } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 
 import { environment } from '../../environments/environment';
 import { HttpResponseModel } from '../http-response.model';
 import { LoginRequestModel, LoginResponseModel } from './login/login.model';
 import { RegisterRequestModel } from './register/register.model';
 import { ProfileService } from '../home/profile/profile.service';
+import { ForgotPasswordResponseModel } from './forgot-password/forgot-password.model';
+import { UpdatePasswordRequestModel } from './update-password/update-password.model';
 
 @Injectable({
   providedIn: 'root',
@@ -75,5 +77,32 @@ export class AuthService {
       this.router.navigate(['/auth/login'])
         .then(() => subscriber.next());
     });
+  }
+
+  forgotPassword(email: string) {
+    const url = `${environment.apiUrl}/auth/forgot-password`;
+    return this.httpClient.post<HttpResponseModel<ForgotPasswordResponseModel>>(url, { email })
+      .pipe(
+        map(response => response?.data)
+      )
+      .pipe(
+        tap({
+          next: async (responseData) => {
+            await this.router.navigate(['/auth/update-password', responseData?.passwordResetToken]);
+          }
+        })
+      );
+  }
+
+  updatePassword(passwordResetToken: string, data: UpdatePasswordRequestModel) {
+    const url = `${environment.apiUrl}/auth/update-password/${passwordResetToken}`;
+    return this.httpClient.patch<HttpResponseModel<undefined>>(url, data)
+      .pipe(
+        tap({
+          next: async (responseData) => {
+            await this.router.navigate(['/auth/login']);
+          }
+        })
+      );
   }
 }

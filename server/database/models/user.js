@@ -19,9 +19,9 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  passwordReset: {
-    type: Boolean,
-    default: false,
+  passwordResetToken: {
+    type: mongoose.Schema.Types.UUID,
+    default: null,
   },
   role: {
     type: mongoose.Schema.Types.ObjectId,
