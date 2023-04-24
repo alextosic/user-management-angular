@@ -12,8 +12,15 @@ export interface UserListResponseModel {
 
 export interface UserCreateModel {
   email: string;
-  password: string;
-  confirmPassword: string;
   firstName: string;
   lastName: string;
+  password: string;
+  confirmPassword: string;
+}
+
+export interface UserUpdateModel {
+  firstName: string;
+  lastName: string;
+  password?: string;
+  confirmPassword?: string;
 }

@@ -1,9 +1,5 @@
 <mat-card-content>
-  <cdp-create-form
-    submitLabel="Register"
-    submitWidth="full"
-    (onSubmit)="onSubmit($event)"
-  ></cdp-create-form>
+  <cdp-create-form page="register" (cdpSubmit)="onSubmit($event)" />
 </mat-card-content>
 <mat-card-footer>
   <a mat-flat-button [routerLink]="['/auth/login']">Already have an account?</a>

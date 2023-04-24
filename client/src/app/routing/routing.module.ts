@@ -13,6 +13,7 @@ import { AdminGuard } from '../admin/admin.guard';
 import { RoutingTitleStrategy } from './routing.title-strategy';
 import { AuthComponent } from '../auth/auth.component';
 import { UserCreateComponent } from '../admin/user/user-create/user-create.component';
+import { UserUpdateComponent } from '../admin/user/user-update/user-update.component';
 
 const routes: Routes = [
   {
@@ -63,6 +64,11 @@ const routes: Routes = [
                 path: 'create',
                 title: 'Create User',
                 component: UserCreateComponent,
+              },
+              {
+                path: ':id',
+                title: 'Update User',
+                component: UserUpdateComponent,
               },
               {
                 path: '**',

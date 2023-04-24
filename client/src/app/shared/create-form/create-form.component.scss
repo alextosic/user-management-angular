@@ -7,11 +7,15 @@ mat-form-field {
 }
 
 button {
-  &.normal {
-    margin-top: 2rem;
-  }
-
   &.full {
     width: 100%;
   }
+
+  &:not(:last-child) {
+    margin-right: 1rem;
+  }
+}
+
+.margin-top {
+  margin-top: 2rem;
 }

@@ -2,6 +2,10 @@
   <div class="mat-headline-4">Create User</div>
 
   <div class="page-content">
-    <cdp-create-form submitLabel="Create" (onSubmit)="onSubmit($event)"></cdp-create-form>
+    <cdp-create-form
+      page="createUser"
+      (cdpSubmit)="onSubmit($event)"
+      (cdpCancel)="onCancel()"
+    />
   </div>
 </div>

@@ -42,7 +42,7 @@ class UserService {
     await this.repository.updateById(id, {
       firstName,
       lastName,
-      ...(updatePassword && { password }),
+      ...(updatePassword && !!password && { password }),
     });
 
     return this.getById(id);

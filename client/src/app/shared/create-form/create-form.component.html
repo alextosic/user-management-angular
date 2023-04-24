@@ -35,7 +35,15 @@
 
   <mat-form-field appearance="outline">
     <mat-label>Confirm Password</mat-label>
-    <input matInput type="password" name="confirmPassword" required ngModel pattern="{{ password.value }}" #confirmPassword="ngModel" />
+    <input
+      matInput
+      type="password"
+      name="confirmPassword"
+      required
+      ngModel
+      pattern="{{ password.value }}"
+      #confirmPassword="ngModel"
+    />
     <mat-error *ngIf="confirmPassword.invalid && confirmPassword.errors?.['required']">
       Please enter a password.
     </mat-error>
@@ -44,5 +52,21 @@
     </mat-error>
   </mat-form-field>
 
-  <button mat-raised-button type="submit" color="primary" [class]="submitWidth">{{ submitLabel }}</button>
+  <div [class]="{ 'align-items': true, 'margin-top': page === 'createUser' }">
+    <button
+      mat-raised-button
+      type="submit"
+      color="primary"
+      [class]="{ 'full': page === 'register' }"
+    >
+      {{ page === 'register' ? 'Register' : 'Create' }}
+    </button>
+    <button
+      mat-raised-button
+      type="button"
+      color="warn"
+      *ngIf="page === 'createUser'"
+      (click)="onCancel()"
+    >Cancel</button>
+  </div>
 </form>

@@ -7,9 +7,9 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./create-form.component.scss'],
 })
 export class CreateFormComponent {
-  @Input() submitLabel = '';
-  @Input() submitWidth: 'normal' | 'full' = 'normal';
-  @Output('onSubmit') onSubmitEmitter = new EventEmitter<any>();
+  @Input() page: 'register' | 'createUser' = 'register';
+  @Output() cdpSubmit = new EventEmitter<any>();
+  @Output() cdpCancel = new EventEmitter<any>();
 
   onSubmit(form: NgForm) {
     if (form.invalid) {
@@ -24,6 +24,10 @@ export class CreateFormComponent {
       lastName: form.value.lastName,
     };
 
-    this.onSubmitEmitter.emit(data);
+    this.cdpSubmit.emit(data);
+  }
+
+  onCancel() {
+    this.cdpCancel.emit();
   }
 }

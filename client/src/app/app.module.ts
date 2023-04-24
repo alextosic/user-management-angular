@@ -16,12 +16,15 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { RoutingModule } from './routing/routing.module';
 import { HttpRequestInterceptor } from './http-request.interceptor';
 import { HttpResponseInterceptor } from './http-response.interceptor';
 
 import { AppComponent } from './app.component';
+import { CreateFormComponent } from './shared/create-form/create-form.component';
+import { UpdateFormComponent } from './shared/update-form/update-form.component';
 import { AuthComponent } from './auth/auth.component';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
@@ -32,11 +35,13 @@ import { AdminComponent } from './admin/admin.component';
 import { UserDeleteDialog } from './admin/user/user-delete.dialog';
 import { UserListComponent } from './admin/user/user-list/user-list.component';
 import { UserCreateComponent } from './admin/user/user-create/user-create.component';
-import { CreateFormComponent } from './shared/create-form.component';
+import { UserUpdateComponent } from './admin/user/user-update/user-update.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    CreateFormComponent,
+    UpdateFormComponent,
     AuthComponent,
     LoginComponent,
     RegisterComponent,
@@ -46,8 +51,8 @@ import { CreateFormComponent } from './shared/create-form.component';
     AdminComponent,
     UserListComponent,
     UserDeleteDialog,
-    CreateFormComponent,
     UserCreateComponent,
+    UserUpdateComponent,
   ],
   imports: [
     BrowserModule,
@@ -68,6 +73,7 @@ import { CreateFormComponent } from './shared/create-form.component';
     MatPaginatorModule,
     MatTooltipModule,
     MatDialogModule,
+    MatCheckboxModule,
 
     RoutingModule,
   ],
