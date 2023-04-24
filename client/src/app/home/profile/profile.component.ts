@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
 
-import { ProfileModel } from './profile.model';
+import { ProfileModel, ProfileUpdateModel } from './profile.model';
 import { ProfileService } from './profile.service';
 
 @Component({
@@ -10,39 +9,18 @@ import { ProfileService } from './profile.service';
   styleUrls: ['./profile.component.scss'],
 })
 export class ProfileComponent implements OnInit {
-  profileForm: FormGroup | undefined = undefined;
+  profileData: ProfileModel | undefined = undefined;
   editable = false;
 
   constructor(private profileService: ProfileService) {}
 
   ngOnInit() {
     this.profileService.profileDataChanged$.subscribe((profileData) => {
-      this.profileForm = new FormGroup<any>({
-        email: new FormControl(profileData?.email),
-        firstName: new FormControl(profileData?.firstName),
-        lastName: new FormControl(profileData?.lastName),
-      });
-
-      this.disableEdit();
+      this.profileData = profileData;
     });
   }
 
-  enableEdit() {
-    this.editable = true;
-
-    this.profileForm?.get('firstName')?.enable();
-    this.profileForm?.get('lastName')?.enable();
-  }
-
-  disableEdit() {
-    this.editable = false;
-    this.profileForm?.disable();
-  }
-
-  updateProfile() {
-    this.profileService.updateProfile({
-      firstName: this.profileForm?.get('firstName')?.value,
-      lastName: this.profileForm?.get('lastName')?.value,
-    }).subscribe();
+  updateProfile(profileData: ProfileUpdateModel) {
+    this.profileService.updateProfile(profileData).subscribe();
   }
 }

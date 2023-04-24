@@ -3,7 +3,7 @@ mat-card {
   padding: 1rem;
 
   mat-card-header {
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
   }
 
   mat-form-field {
@@ -18,11 +18,10 @@ mat-card {
     display: flex;
     justify-content: space-between;
     padding: 1rem;
+    margin-top: 1rem;
   }
 
-  mat-card-actions {
-    padding: 1rem;
-
+  form {
     button {
       width: 100%;
     }

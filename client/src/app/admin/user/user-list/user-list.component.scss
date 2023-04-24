@@ -17,6 +17,12 @@
   justify-content: space-between;
 }
 
+.user-create {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 2rem;
+}
+
 .mat-column-email {
   flex: 0 0 30%;
 }

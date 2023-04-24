@@ -22,15 +22,15 @@ class UserValidator extends BaseValidator {
   validateUpdateUser() {
     return this.validate([
       this.validateId(),
-      this.validateFirstName(),
-      this.validateLastName(),
+      this.validateFirstName(true),
+      this.validateLastName(true),
       this.validatePassword(),
       this.validateConfirmPassword(),
     ]);
   }
 
   validateDeleteUser() {
-    return this.validate([this.validateId()]);
+    return this.validate([this.validateId(true)]);
   }
 }
 

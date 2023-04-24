@@ -30,7 +30,7 @@ class AuthService {
       const secretKey = process.env.JWT_SECRET_KEY;
       return jwt.verify(token, secretKey);
     } catch (err) {
-      throw new ErrorResponse('service', 500, 'User not logged in.');
+      throw new ErrorResponse('service', 401, 'User not logged in.');
     }
   }
 }

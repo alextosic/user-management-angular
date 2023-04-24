@@ -23,39 +23,30 @@ class BaseValidator {
   }
 
   validateFirstName(required) {
-    return this.isRequired(
-      body('firstName')
-        .escape()
-        .trim()
-        .isAlpha()
-        .withMessage('First name can only contain letters of the alphabet.'),
-      'First name',
-      required,
-    );
+    return this
+      .isRequired(body('firstName'), 'First name', required)
+      .escape()
+      .trim()
+      .isAlpha()
+      .withMessage('First name can only contain letters of the alphabet.');
   }
 
   validateLastName(required) {
-    return this.isRequired(
-      body('lastName')
-        .escape()
-        .trim()
-        .isAlpha()
-        .withMessage('Last name can only contain letters of the alphabet.'),
-      'Last name',
-      required,
-    );
+    return this
+      .isRequired(body('lastName'), 'Last name', required)
+      .escape()
+      .trim()
+      .isAlpha()
+      .withMessage('Last name can only contain letters of the alphabet.');
   }
 
   validateEmail(required) {
-    return this.isRequired(
-      body('email')
-        .escape()
-        .trim()
-        .isEmail()
-        .withMessage('Email is not in a valid format.'),
-      'Email',
-      required,
-    );
+    return this
+      .isRequired(body('email'), 'Email', required)
+      .escape()
+      .trim()
+      .isEmail()
+      .withMessage('Email is not in a valid format.');
   }
 
   validatePassword(required) {
@@ -65,51 +56,39 @@ class BaseValidator {
       + `${strongPasswordValues.minLowercase} lowercase letter(s), `
       + `and ${strongPasswordValues.minNumbers} number(s).`;
 
-    return this.isRequired(
-      body('password')
-        .escape()
-        .trim()
-        .isStrongPassword(strongPasswordValues)
-        .withMessage(strongPasswordError),
-      'Password',
-      required,
-    );
+    return this
+      .isRequired(body('password'), 'Password', required)
+      .escape()
+      .trim()
+      .isStrongPassword(strongPasswordValues)
+      .withMessage(strongPasswordError);
   }
 
   validateConfirmPassword(required) {
-    return this.isRequired(
-      body('confirmPassword')
-        .escape()
-        .trim()
-        .custom((value, { req }) => value === req.body.password)
-        .withMessage('Confirm password should match the password.'),
-      'Confirm password',
-      required,
-    );
+    return this
+      .isRequired(body('confirmPassword'), 'Confirm password', required)
+      .escape()
+      .trim()
+      .custom((value, { req }) => value === req.body.password)
+      .withMessage('Confirm password should match the password.');
   }
 
   validatePage(required) {
-    return this.isRequired(
-      query('page')
-        .escape()
-        .trim()
-        .isNumeric()
-        .withMessage('Page query should be a number.'),
-      'Page query',
-      required,
-    );
+    return this
+      .isRequired(query('page'), 'Page query', required)
+      .escape()
+      .trim()
+      .isNumeric()
+      .withMessage('Page query should be a number.');
   }
 
   validatePerPage(required) {
-    return this.isRequired(
-      query('perPage')
-        .escape()
-        .trim()
-        .isNumeric()
-        .withMessage('Per page query should be a number.'),
-      'Per page query',
-      required,
-    );
+    return this
+      .isRequired(query('perPage'), 'Per page query', required)
+      .escape()
+      .trim()
+      .isNumeric()
+      .withMessage('Per page query should be a number.');
   }
 
   validate(validations) {

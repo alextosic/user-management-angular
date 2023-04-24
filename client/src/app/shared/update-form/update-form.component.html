@@ -1,0 +1,103 @@
+<form [formGroup]="updateForm" *ngIf="updateForm" (ngSubmit)="onSubmit()">
+
+  <div>
+    <mat-form-field class="form-field" appearance="outline">
+      <mat-label>Email</mat-label>
+      <input matInput type="email" name="email" required email formControlName="email" />
+      <mat-error *ngIf="updateForm.get('email')?.errors?.['required']">
+        Please enter an email.
+      </mat-error>
+      <mat-error *ngIf="updateForm.get('email')?.errors?.['email']">
+        Invalid email address.
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <div>
+    <mat-form-field class="form-field" appearance="outline">
+      <mat-label>First Name</mat-label>
+      <input matInput type="text" name="firstName" required formControlName="firstName" />
+      <mat-error *ngIf="updateForm.get('firstName')?.errors?.['required']">
+        Please enter your first name.
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <div>
+    <mat-form-field class="form-field" appearance="outline">
+      <mat-label>Last Name</mat-label>
+      <input matInput type="text" name="lastName" required formControlName="lastName" />
+      <mat-error *ngIf="updateForm.get('lastName')?.errors?.['required']">
+        Please enter your last name.
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <div *ngIf="page === 'updateUser'">
+    <mat-checkbox [checked]="editable" (change)="editable ? disableEdit() : enableEdit()">
+      Edit password?
+    </mat-checkbox>
+  </div>
+
+  <div *ngIf="page === 'updateUser' && editable">
+    <div>
+      <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" name="password" required formControlName="password" />
+        <mat-error *ngIf="updateForm.get('password')?.errors?.['required']">
+          Please enter a password.
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div>
+      <mat-form-field appearance="outline">
+        <mat-label>Confirm Password</mat-label>
+        <input
+          matInput
+          type="password"
+          name="confirmPassword"
+          required
+          formControlName="confirmPassword"
+          pattern="{{ updateForm.get('password')?.value }}"
+        />
+        <mat-error *ngIf="updateForm.get('confirmPassword')?.errors?.['required']">
+          Please enter a password.
+        </mat-error>
+        <mat-error *ngIf="updateForm.get('confirmPassword')?.errors?.['pattern']">
+          Confirm password field must match the password field.
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="buttons align-items">
+    <button
+      mat-raised-button
+      type="button"
+      color="accent"
+      (click)="enableEdit()"
+      *ngIf="page === 'profile' && !editable"
+    >
+      Edit
+    </button>
+    <button
+      mat-raised-button
+      type="submit"
+      color="primary"
+      *ngIf="editable || page === 'updateUser'"
+    >
+      Save
+    </button>
+    <button
+      mat-raised-button
+      type="button"
+      color="warn"
+      (click)="page === 'updateUser' ? onCancel() : disableEdit()"
+      *ngIf="editable || page === 'updateUser'"
+    >
+      Cancel
+    </button>
+  </div>
+
+</form>

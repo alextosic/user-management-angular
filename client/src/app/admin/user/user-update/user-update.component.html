@@ -1,0 +1,10 @@
+<div class="page">
+  <div class="mat-headline-4">Update User</div>
+  <cdp-update-form
+    page="updateUser"
+    *ngIf="userData"
+    [updateData]="userData"
+    (cdpSubmit)="onSubmit($event)"
+    (cdpCancel)="onCancel()"
+  />
+</div>

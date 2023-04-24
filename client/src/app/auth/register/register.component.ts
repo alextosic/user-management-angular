@@ -1,30 +1,17 @@
 import { Component } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
 
 import { AuthService } from '../auth.service';
+import { RegisterRequestModel } from './register.model';
 
 @Component({
   selector: 'cdp-register',
   templateUrl: './register.component.html',
-  styleUrls: ['../auth.styles.scss'],
+  styleUrls: ['../auth.component.scss'],
 })
 export class RegisterComponent {
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService) {}
 
-  onSubmit(form: NgForm) {
-    if (form.invalid) {
-      return;
-    }
-
-    const data = {
-      email: form.value.email,
-      password: form.value.password,
-      confirmPassword: form.value.confirmPassword,
-      firstName: form.value.firstName,
-      lastName: form.value.lastName,
-    };
-
+  onSubmit(data: RegisterRequestModel) {
     this.authService.register(data).subscribe();
   }
 }

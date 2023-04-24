@@ -1,45 +1,4 @@
 <div class="page">
   <div class="mat-headline-4">Profile</div>
-  <form [formGroup]="profileForm" (ngSubmit)="updateProfile()" *ngIf="profileForm">
-
-    <div>
-      <mat-form-field class="form-field" appearance="outline">
-        <mat-label>Email</mat-label>
-        <input matInput type="email" name="email" required email formControlName="email" />
-        <mat-error *ngIf="profileForm?.get('email')?.errors?.['required']">
-          Please enter an email.
-        </mat-error>
-        <mat-error *ngIf="profileForm?.get('email')?.errors?.['email']">
-          Invalid email address.
-        </mat-error>
-      </mat-form-field>
-    </div>
-
-    <div>
-      <mat-form-field class="form-field" appearance="outline">
-        <mat-label>First Name</mat-label>
-        <input matInput type="text" name="firstName" required formControlName="firstName" />
-        <mat-error *ngIf="profileForm?.get('firstName')?.errors?.['required']">
-          Please enter your first name.
-        </mat-error>
-      </mat-form-field>
-    </div>
-
-    <div>
-      <mat-form-field class="form-field" appearance="outline">
-        <mat-label>Last Name</mat-label>
-        <input matInput type="text" name="lastName" required formControlName="lastName" />
-        <mat-error *ngIf="profileForm?.get('lastName')?.errors?.['required']">
-          Please enter your last name.
-        </mat-error>
-      </mat-form-field>
-    </div>
-
-    <div class="buttons align-items">
-      <button mat-raised-button type="button" color="accent" (click)="enableEdit()" *ngIf="!editable">Edit</button>
-      <button mat-raised-button type="submit" color="primary" *ngIf="editable">Save</button>
-      <button mat-raised-button type="button" color="warn" (click)="disableEdit()" *ngIf="editable">Cancel</button>
-    </div>
-
-  </form>
+  <cdp-update-form page="profile" [updateData]="profileData" (cdpSubmit)="updateProfile($event)" />
 </div>

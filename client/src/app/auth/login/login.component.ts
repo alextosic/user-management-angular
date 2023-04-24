@@ -7,7 +7,7 @@ import { AuthService } from '../auth.service';
 @Component({
   selector: 'cdp-login',
   templateUrl: './login.component.html',
-  styleUrls: ['../auth.styles.scss'],
+  styleUrls: ['../auth.component.scss'],
 })
 export class LoginComponent {
   constructor(private authService: AuthService, private router: Router) {}
