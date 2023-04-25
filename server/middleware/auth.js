@@ -34,15 +34,18 @@ class AuthMiddleware {
     };
   }
 
-  authorize(allowedRoles) {
+  authorize(allowedPermissions) {
     return async (req, res, next) => {
       const { user } = req;
+      console.log(JSON.stringify(user));
 
-      if (allowedRoles.indexOf(user.role.name) < 0) {
-        return next(new ErrorResponse('middleware', 500, 'User not allowed to access this resource.'));
+      if (user.role.permissions.some(
+        (permission) => allowedPermissions.indexOf(permission.name) > -1,
+      )) {
+        return next();
       }
 
-      return next();
+      return next(new ErrorResponse('middleware', 500, 'User is not allowed to access this resource.'));
     };
   }
 }
