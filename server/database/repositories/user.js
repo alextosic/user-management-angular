@@ -1,17 +1,17 @@
 const BaseRepository = require('./base');
 const UserModel = require('../models/user');
 
+const { defaultRoles } = require('../../constants/role');
+
 class UserRepository extends BaseRepository {
-  constructor(userModel) {
-    super(userModel);
-  }
-
-  async findAllNotAdmin(adminRoleId, pagination) {
+  async findAll(adminRoleId, pagination) {
     const { page = 0, perPage = 0 } = pagination;
-    return super.find({ role: { $ne: adminRoleId } }, { skip: page * perPage, limit: perPage }, 'role');
+    const users = await super.find({ role: { $ne: adminRoleId } }, { skip: page * perPage, limit: perPage }, 'role');
+
+    return users.filter((user) => user.role.name !== defaultRoles.ADMIN);
   }
 
-  async countAllNotAdmin(adminRoleId) {
+  async countAll(adminRoleId) {
     return super.count({ role: { $ne: adminRoleId } });
   }
 
