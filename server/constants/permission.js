@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   defaultPermissions: {
     view_users: 'view_users',
     list_users: 'list_users',
