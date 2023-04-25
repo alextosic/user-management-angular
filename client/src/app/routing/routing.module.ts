@@ -13,9 +13,11 @@ import { UserCreateComponent } from '../admin/user/user-create/user-create.compo
 import { UserUpdateComponent } from '../admin/user/user-update/user-update.component';
 
 import { AuthLoggedInGuard, AuthLoggedOutGuard } from '../auth/auth.guard';
-import { AdminGuard } from '../admin/admin.guard';
+import { PermissionGuard } from '../auth/permission/permission.guard';
 import { RoutingTitleStrategy } from './routing.title-strategy';
 import { UpdatePasswordComponent } from '../auth/update-password/update-password.component';
+
+import { defaultPermissions } from '../auth/permission/permission.constants';
 
 const routes: Routes = [
   {
@@ -62,7 +64,6 @@ const routes: Routes = [
       {
         path: 'admin',
         component: AdminComponent,
-        canActivate: [AdminGuard],
         children: [
           {
             path: 'user',
@@ -71,16 +72,19 @@ const routes: Routes = [
                 path: '',
                 title: 'User List',
                 component: UserListComponent,
+                canActivate: [PermissionGuard(['list_users'])],
               },
               {
                 path: 'create',
                 title: 'Create User',
                 component: UserCreateComponent,
+                canActivate: [PermissionGuard(['create_users'])],
               },
               {
                 path: ':id',
-                title: 'Update User',
+                title: 'User Page',
                 component: UserUpdateComponent,
+                canActivate: [PermissionGuard(['view_users'])],
               },
               {
                 path: '**',

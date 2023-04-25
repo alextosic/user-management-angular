@@ -12,6 +12,7 @@ class AuthMiddleware {
   authenticate() {
     return async (req, res, next) => {
       const authHeader = req.headers.authorization;
+      console.log(authHeader);
 
       if (!authHeader || !authHeader.length) {
         return next(new ErrorResponse('middleware', 401, 'User not logged in.'));
@@ -25,8 +26,13 @@ class AuthMiddleware {
 
       try {
         const decodedToken = this.authService.verifyToken(token);
-        req.user = await this.userService.getById(decodedToken.id);
+        const user = await this.userService.getById(decodedToken.id);
 
+        if (!user) {
+          throw new ErrorResponse('middleware', 401, 'User not logged in.');
+        }
+
+        req.user = user;
         return next();
       } catch (err) {
         return next(err);
@@ -45,7 +51,7 @@ class AuthMiddleware {
         return next();
       }
 
-      return next(new ErrorResponse('middleware', 500, 'User is not allowed to access this resource.'));
+      return next(new ErrorResponse('middleware', 500, 'User is not allowed to access this resource or perform this operation.'));
     };
   }
 }

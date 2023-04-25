@@ -7,7 +7,7 @@ export const AdminGuard: CanActivateFn = () => {
   const profileService = inject(ProfileService);
   const router = inject(Router);
 
-  if (profileService.profileData?.role === 'ADMIN') {
+  if (profileService.profileData?.role?.name === 'ADMIN') {
     return true;
   }
 
