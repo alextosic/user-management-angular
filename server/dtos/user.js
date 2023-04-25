@@ -1,9 +1,10 @@
 class UserDTO {
-  constructor({ _id, email, firstName, lastName }) {
+  constructor({ _id, email, firstName, lastName, role }) {
     this.id = _id;
     this.email = email;
     this.firstName = firstName;
     this.lastName = lastName;
+    this.role = { id: role._id, name: role.name };
   }
 
   toJson() {
@@ -12,6 +13,7 @@ class UserDTO {
       email: this.email,
       firstName: this.firstName,
       lastName: this.lastName,
+      role: this.role,
     };
   }
 
