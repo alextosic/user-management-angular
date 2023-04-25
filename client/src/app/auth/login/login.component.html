@@ -18,11 +18,11 @@
       <mat-error *ngIf="password.invalid">Please enter a password.</mat-error>
     </mat-form-field>
 
-    <button mat-raised-button color="primary">Login</button>
+    <button mat-raised-button color="primary" type="submit">Login</button>
   </form>
 </mat-card-content>
 
 <mat-card-footer>
   <a mat-flat-button [routerLink]="['/auth/register']">Don't have an account?</a>
-  <button mat-flat-button>Forgot password?</button>
+  <a mat-flat-button [routerLink]="['/auth/forgot-password']">Forgot password?</a>
 </mat-card-footer>

@@ -14,6 +14,7 @@ module.exports = {
       password: await authService.hashPassword(process.env.ADMIN_PASSWORD),
       firstName: 'Admin',
       lastName: 'Admin',
+      passwordResetToken: '',
       role: adminRole._id,
     });
   },

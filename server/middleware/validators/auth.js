@@ -21,7 +21,7 @@ class AuthValidator extends BaseValidator {
 
   validateUpdatePassword() {
     return this.validate([
-      this.validateEmail(true),
+      this.validatePasswordResetToken(true),
       this.validatePassword(true),
       this.validateConfirmPassword(true),
     ]);

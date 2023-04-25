@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 
 @Component({
   selector: 'cdp-auth',
@@ -9,9 +9,19 @@ import { ActivatedRoute } from '@angular/router';
 export class AuthComponent implements OnInit {
   title: string | undefined;
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit() {
+    this.updateTitle();
+
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.updateTitle();
+      }
+    });
+  }
+
+  updateTitle() {
     this.route.title.subscribe((title) => {
       this.title = this.route.snapshot.firstChild?.title;
     });

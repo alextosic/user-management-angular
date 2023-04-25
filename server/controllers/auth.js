@@ -26,16 +26,14 @@ class AuthController extends BaseController {
         throw new ErrorResponse('controller', 400, 'Email or password invalid.');
       }
 
+      if (user.passwordResetToken) {
+        throw new ErrorResponse('controller', 400, 'You have a pending password reset.');
+      }
+
       const passwordValid = await this.authService.verifyPassword(password, user.password);
 
       if (!passwordValid) {
         throw new ErrorResponse('controller', 400, 'Email or password invalid.');
-      }
-
-      if (user.passwordReset) {
-        throw new ErrorResponse('controller', 400, 'You haven\'t set a new password.', {
-          passwordReset: true,
-        });
       }
 
       const token = this.authService.createToken(user._id);
@@ -63,17 +61,33 @@ class AuthController extends BaseController {
 
   forgotPassword() {
     return async (req, res, next) => this.handleRequest(async () => {
-      await this.userService.resetPassword(req.body.email);
-      return this.sendResponse(res, new SuccessResponse(200, 'Password reset successfully.'));
+      const updatedUser = await this.userService.forgotPassword(req.body.email);
+      return this.sendResponse(res, new SuccessResponse(200, 'Password reset successfully.', {
+        passwordResetToken: updatedUser.passwordResetToken,
+      }));
     }, next);
   }
 
   updatePassword() {
     return async (req, res, next) => this.handleRequest(async () => {
-      const { email, password } = req.body;
-      const hashedPassword = await this.authService.hashPassword(password);
+      const { passwordResetToken } = req.params;
+      const { password } = req.body;
 
-      await this.userService.updatePassword(email, hashedPassword);
+      const user = await this.userService.get({ passwordResetToken });
+
+      if (!user) {
+        throw new ErrorResponse('controller', 400, 'Invalid password reset URL.');
+      }
+
+      const passwordValid = await this.authService.verifyPassword(password, user.password);
+
+      if (passwordValid) {
+        throw new ErrorResponse('controller', 400, 'You cannot set the same password as your old one.');
+      }
+
+      const hashedPassword = await this.authService.hashPassword(password);
+      await this.userService.updatePassword(user._id, hashedPassword);
+
       return this.sendResponse(res, new SuccessResponse(200, 'Password updated successfully.'));
     }, next);
   }

@@ -73,6 +73,15 @@ class BaseValidator {
       .withMessage('Confirm password should match the password.');
   }
 
+  validatePasswordResetToken(required) {
+    return this
+      .isRequired(param('passwordResetToken'), 'Password reset token', required)
+      .escape()
+      .trim()
+      .isUUID()
+      .withMessage('Password reset token should be of UUID type.');
+  }
+
   validatePage(required) {
     return this
       .isRequired(query('page'), 'Page query', required)
