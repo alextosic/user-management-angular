@@ -8,7 +8,7 @@ const { defaultRoles } = require('../constants/role');
 
 const router = express.Router();
 
-router.get('/all', authMiddleware.authenticate(), authMiddleware.authorize([defaultRoles.ADMIN]), userController.getAllUsers());
+router.get('/all', authMiddleware.authenticate(), authMiddleware.authorize([defaultRoles.ADMIN]), userValidator.validateGetAllUsers(), userController.getAllUsers());
 router.get('/:id', authMiddleware.authenticate(), authMiddleware.authorize([defaultRoles.ADMIN]), userValidator.validateGetUser(), userController.getUser());
 router.post('/', authMiddleware.authenticate(), authMiddleware.authorize([defaultRoles.ADMIN]), userValidator.validateCreateUser(), userController.createUser());
 router.patch('/:id', authMiddleware.authenticate(), authMiddleware.authorize([defaultRoles.ADMIN]), userValidator.validateUpdateUser(), userController.updateUser());

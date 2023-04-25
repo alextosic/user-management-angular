@@ -30,7 +30,7 @@ class UserValidator extends BaseValidator {
   }
 
   validateDeleteUser() {
-    return this.validate([this.validateId(true)]);
+    return this.validate([this.validateId()]);
   }
 }
 
