@@ -1,28 +1,33 @@
 const uuid = require('uuid');
 
 const userRepository = require('../database/repositories/user');
+const roleRepository = require('../database/repositories/role');
 const ErrorResponse = require('../responses/error');
 
+const { defaultRoles } = require('../constants/role');
+
 class UserService {
-  constructor(repository) {
-    this.repository = repository;
+  constructor(userRepositoryParam, roleRepositoryParam) {
+    this.userRepository = userRepositoryParam;
+    this.roleRepository = roleRepositoryParam;
   }
 
   async getById(id) {
-    return this.repository.findById(id);
+    return this.userRepository.findById(id);
   }
 
   async getByEmail(email) {
-    return this.repository.findByEmail(email);
+    return this.userRepository.findByEmail(email);
   }
 
   async get(query) {
-    return this.repository.findOne(query);
+    return this.userRepository.findOne(query);
   }
 
-  async getAllNotAdmin(adminRoleId, pagination) {
-    const users = await this.repository.findAllNotAdmin(adminRoleId, pagination);
-    const total = await this.repository.countAllNotAdmin(adminRoleId);
+  async getAll(pagination) {
+    const adminRole = await this.roleRepository.findByName(defaultRoles.ADMIN);
+    const users = await this.userRepository.findAll(adminRole._id, pagination);
+    const total = await this.userRepository.countAll(adminRole._id);
 
     return {
       users,
@@ -38,7 +43,7 @@ class UserService {
       throw new ErrorResponse('service', 409, 'User with that email address already exists.');
     }
 
-    return this.repository.create({ email, firstName, lastName, password, role });
+    return this.userRepository.create({ email, firstName, lastName, password, role });
   }
 
   async update(id, data, updatePassword) {
@@ -49,7 +54,7 @@ class UserService {
     }
 
     const { firstName, lastName, password } = data;
-    await this.repository.updateById(id, {
+    await this.userRepository.updateById(id, {
       firstName,
       lastName,
       ...(updatePassword && !!password && { password }),
@@ -69,12 +74,12 @@ class UserService {
       throw new ErrorResponse('service', 400, 'You have a pending password reset.');
     }
 
-    await this.repository.updateById(user._id, { passwordResetToken: uuid.v4() });
+    await this.userRepository.updateById(user._id, { passwordResetToken: uuid.v4() });
     return this.getById(user._id);
   }
 
   async updatePassword(id, password) {
-    return this.repository.updateById(id, { password, passwordResetToken: null });
+    return this.userRepository.updateById(id, { password, passwordResetToken: null });
   }
 
   async delete(id) {
@@ -84,8 +89,8 @@ class UserService {
       throw new ErrorResponse('service', 400, 'User with that ID doesn\'t exist.');
     }
 
-    return this.repository.deleteById(id);
+    return this.userRepository.deleteById(id);
   }
 }
 
-module.exports = new UserService(userRepository);
+module.exports = new UserService(userRepository, roleRepository);
