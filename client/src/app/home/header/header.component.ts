@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-
-import { ProfileModel } from '../profile/profile.model';
-import { AuthService } from '../../auth/auth.service';
-import { ProfileService } from '../profile/profile.service';
 import { Observable } from 'rxjs';
+
+import { ProfileModel } from '../../profile/profile.model';
+import { ProfileService } from '../../profile/profile.service';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'cdp-header',

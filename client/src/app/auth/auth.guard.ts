@@ -3,7 +3,7 @@ import { CanActivateFn, Router } from '@angular/router';
 import { catchError, map } from 'rxjs';
 
 import { AuthService } from './auth.service';
-import { ProfileService } from '../home/profile/profile.service';
+import { ProfileService } from '../profile/profile.service';
 
 export const AuthLoggedInGuard: CanActivateFn = () => {
   const profileService = inject(ProfileService);
