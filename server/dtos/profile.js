@@ -3,7 +3,15 @@ class ProfileDTO {
     this.email = email;
     this.firstName = firstName;
     this.lastName = lastName;
-    this.role = role ? role.name : '';
+
+    this.role = {
+      id: role._id,
+      name: role.name,
+      permissions: role.permissions.map((permission) => ({
+        id: permission._id,
+        name: permission.name,
+      })),
+    };
   }
 
   toJson() {

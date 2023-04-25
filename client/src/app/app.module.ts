@@ -39,6 +39,8 @@ import { UserListComponent } from './admin/user/user-list/user-list.component';
 import { UserCreateComponent } from './admin/user/user-create/user-create.component';
 import { UserUpdateComponent } from './admin/user/user-update/user-update.component';
 
+import { PermissionDirective } from './auth/permission/permission.directive';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -57,6 +59,8 @@ import { UserUpdateComponent } from './admin/user/user-update/user-update.compon
     UserDeleteDialog,
     UserCreateComponent,
     UserUpdateComponent,
+
+    PermissionDirective,
   ],
   imports: [
     BrowserModule,

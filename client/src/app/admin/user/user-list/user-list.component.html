@@ -3,10 +3,10 @@
 
   <div class="page-content">
     <div class="user-content">
-      <div class="user-create">
+      <div class="user-create" *cdpPermissions="{ allowedPermissions: ['create_users'] }">
         <a mat-raised-button [routerLink]="'/admin/user/create'" color="primary">Create User</a>
       </div>
-      <mat-table [dataSource]="userList">
+      <mat-table [dataSource]="userList" *cdpPermissions="{ allowedPermissions: ['list_users'] }">
 
         <ng-container matColumnDef="email">
           <mat-header-cell *matHeaderCellDef>Email</mat-header-cell>
@@ -24,12 +24,39 @@
         </ng-container>
 
         <ng-container matColumnDef="actions">
-          <mat-header-cell *matHeaderCellDef class="align-center">Actions</mat-header-cell>
+          <mat-header-cell *matHeaderCellDef class="align-center">
+            <ng-container
+              *cdpPermissions="{ allowedPermissions: ['view_users', 'update_users', 'delete_users'] }"
+            >
+              Actions
+            </ng-container>
+          </mat-header-cell>
           <mat-cell *matCellDef="let element" class="align-center">
-            <a mat-icon-button [routerLink]="['/admin/user', element.id]" matTooltip="Update">
+            <a
+              mat-icon-button
+              [routerLink]="['/admin/user', element.id]"
+              matTooltip="Update"
+              *cdpPermissions="{ allowedPermissions: ['update_users'] }"
+            >
               <mat-icon color="primary">edit</mat-icon>
             </a>
-            <button mat-icon-button (click)="deleteUser(element.id, element.email)" matTooltip="Delete">
+            <a
+              mat-icon-button
+              [routerLink]="['/admin/user', element.id]"
+              matTooltip="View"
+              *cdpPermissions="{
+                allowedPermissions: ['view_users'],
+                disallowedPermissions: ['update_users']
+              }"
+            >
+              <mat-icon color="primary">remove_red_eye</mat-icon>
+            </a>
+            <button
+              mat-icon-button
+              (click)="deleteUser(element.id, element.email)"
+              matTooltip="Delete"
+              *cdpPermissions="{ allowedPermissions: ['delete_users'] }"
+            >
               <mat-icon color="warn">delete</mat-icon>
             </button>
           </mat-cell>

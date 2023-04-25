@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { UserModel } from '../user.model';
 import { UserService } from '../user.service';
 import { UserDeleteDialog } from '../user-delete.dialog';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'cdp-user-list',
