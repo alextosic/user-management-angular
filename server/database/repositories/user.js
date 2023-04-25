@@ -1,14 +1,15 @@
 const BaseRepository = require('./base');
 const UserModel = require('../models/user');
 
-const { defaultRoles } = require('../../constants/role');
-
 class UserRepository extends BaseRepository {
   async findAll(adminRoleId, pagination) {
     const { page = 0, perPage = 0 } = pagination;
-    const users = await super.find({ role: { $ne: adminRoleId } }, { skip: page * perPage, limit: perPage }, 'role');
 
-    return users.filter((user) => user.role.name !== defaultRoles.ADMIN);
+    return super.find(
+      { role: { $ne: adminRoleId } },
+      { skip: page * perPage, limit: perPage },
+      { path: 'role', populate: { path: 'permissions' } },
+    );
   }
 
   async countAll(adminRoleId) {
@@ -16,11 +17,11 @@ class UserRepository extends BaseRepository {
   }
 
   async findById(id) {
-    return super.findOne({ _id: id }, null, 'role');
+    return super.findOne({ _id: id }, null, { path: 'role', populate: { path: 'permissions' } });
   }
 
   async findByEmail(email) {
-    return super.findOne({ email }, null, 'role');
+    return super.findOne({ email }, null, { path: 'role', populate: { path: 'permissions' } });
   }
 
   async updateById(id, data) {
