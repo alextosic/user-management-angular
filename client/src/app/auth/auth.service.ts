@@ -16,6 +16,7 @@ import { UpdatePasswordRequestModel } from './update-password/update-password.mo
 })
 export class AuthService {
   private token = '';
+  private apiUrl = `${environment.apiUrl}/auth`;
 
   constructor(private httpClient: HttpClient, private router: Router, private profileService: ProfileService) {}
 
@@ -42,7 +43,7 @@ export class AuthService {
   }
 
   login(data: LoginRequestModel) {
-    const url = `${environment.apiUrl}/auth/login`;
+    const url = `${this.apiUrl}/login`;
 
     return this.httpClient.post<HttpResponseModel<LoginResponseModel>>(url, data)
       .pipe(
@@ -58,7 +59,7 @@ export class AuthService {
   }
 
   register(data: RegisterRequestModel) {
-    const url = `${environment.apiUrl}/auth/register`;
+    const url = `${this.apiUrl}/register`;
     return this.httpClient.post<HttpResponseModel<any>>(url, data)
       .pipe(
         tap({
@@ -80,7 +81,8 @@ export class AuthService {
   }
 
   forgotPassword(email: string) {
-    const url = `${environment.apiUrl}/auth/forgot-password`;
+    const url = `${this.apiUrl}/forgot-password`;
+
     return this.httpClient.post<HttpResponseModel<ForgotPasswordResponseModel>>(url, { email })
       .pipe(
         map(response => response?.data)
@@ -95,7 +97,8 @@ export class AuthService {
   }
 
   updatePassword(passwordResetToken: string, data: UpdatePasswordRequestModel) {
-    const url = `${environment.apiUrl}/auth/update-password/${passwordResetToken}`;
+    const url = `${this.apiUrl}/update-password/${passwordResetToken}`;
+
     return this.httpClient.patch<HttpResponseModel<undefined>>(url, data)
       .pipe(
         tap({

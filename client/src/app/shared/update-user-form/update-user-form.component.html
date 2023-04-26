@@ -1,7 +1,7 @@
 <form [formGroup]="updateForm" *ngIf="updateForm" (ngSubmit)="onSubmit()">
 
   <div>
-    <mat-form-field class="form-field" appearance="outline">
+    <mat-form-field class="half-width" appearance="outline">
       <mat-label>Email</mat-label>
       <input matInput type="email" name="email" required email formControlName="email" />
       <mat-error *ngIf="updateForm.get('email')?.errors?.['required']">
@@ -14,7 +14,7 @@
   </div>
 
   <div>
-    <mat-form-field class="form-field" appearance="outline">
+    <mat-form-field class="half-width" appearance="outline">
       <mat-label>First Name</mat-label>
       <input matInput type="text" name="firstName" required formControlName="firstName" />
       <mat-error *ngIf="updateForm.get('firstName')?.errors?.['required']">
@@ -24,7 +24,7 @@
   </div>
 
   <div>
-    <mat-form-field class="form-field" appearance="outline">
+    <mat-form-field class="half-width" appearance="outline">
       <mat-label>Last Name</mat-label>
       <input matInput type="text" name="lastName" required formControlName="lastName" />
       <mat-error *ngIf="updateForm.get('lastName')?.errors?.['required']">
@@ -41,7 +41,7 @@
 
   <div *ngIf="page === 'updateUser' && editable">
     <div>
-      <mat-form-field appearance="outline">
+      <mat-form-field class="half-width" appearance="outline">
         <mat-label>Password</mat-label>
         <input matInput type="password" name="password" required formControlName="password" />
         <mat-error *ngIf="updateForm.get('password')?.errors?.['required']">
@@ -51,7 +51,7 @@
     </div>
 
     <div>
-      <mat-form-field appearance="outline">
+      <mat-form-field class="half-width" appearance="outline">
         <mat-label>Confirm Password</mat-label>
         <input
           matInput

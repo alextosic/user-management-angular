@@ -4,7 +4,7 @@ import { NgForm } from '@angular/forms';
 @Component({
   selector: 'cdp-create-user-form',
   templateUrl: './create-user-form.component.html',
-  styleUrls: ['./create-user-form.component.scss'],
+  styleUrls: ['../form.styles.scss'],
 })
 export class CreateUserFormComponent {
   @Input() page: 'register' | 'createUser' = 'register';

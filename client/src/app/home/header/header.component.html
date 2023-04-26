@@ -11,19 +11,27 @@
         <mat-icon>account_circle</mat-icon>
       </button>
       <mat-menu #accountMenu="matMenu">
-        <a mat-menu-item [routerLink]="['/']">
+        <a
+          mat-menu-item
+          [routerLink]="['/']"
+          [class]="{ 'selected-item': urlContains('/', true)}"
+        >
           <mat-icon>account_circle</mat-icon>
           <span>Profile</span>
         </a>
         <a
-          mat-menu-item [routerLink]="['/user']"
+          mat-menu-item
+          [routerLink]="['/user']"
+          [class]="{ 'selected-item': urlContains('/user')}"
           *cdpPermissions="['list_users']"
         >
           <mat-icon>supervisor_account</mat-icon>
           <span>User Management</span>
         </a>
         <a
-          mat-menu-item [routerLink]="['/role']"
+          mat-menu-item
+          [routerLink]="['/role']"
+          [class]="{ 'selected-item': urlContains('/role')}"
           *cdpPermissions="['list_roles']"
         >
           <mat-icon>assignment_ind</mat-icon>

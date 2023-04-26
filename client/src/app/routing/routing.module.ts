@@ -11,6 +11,8 @@ import { UserListComponent } from '../user/user-list/user-list.component';
 import { UserCreateComponent } from '../user/user-create/user-create.component';
 import { UserUpdateComponent } from '../user/user-update/user-update.component';
 import { RoleListComponent } from '../role/role-list/role-list.component';
+import { RoleCreateComponent } from '../role/role-create/role-create.component';
+import { RoleUpdateComponent } from '../role/role-update/role-update.component';
 
 import { AuthLoggedInGuard, AuthLoggedOutGuard } from '../auth/auth.guard';
 import { PermissionGuard } from '../permission/permission.guard';
@@ -66,7 +68,7 @@ const routes: Routes = [
             path: '',
             title: 'User List',
             component: UserListComponent,
-            canActivate: [PermissionGuard(['list_users'])],
+            canActivate: [PermissionGuard(['list_users', 'create_users'])],
           },
           {
             path: 'create',
@@ -78,7 +80,7 @@ const routes: Routes = [
             path: ':id',
             title: 'User Page',
             component: UserUpdateComponent,
-            canActivate: [PermissionGuard(['view_users'])],
+            canActivate: [PermissionGuard(['view_users', 'update_users'])],
           },
           {
             path: '**',
@@ -93,7 +95,23 @@ const routes: Routes = [
             path: '',
             title: 'Role List',
             component: RoleListComponent,
-            canActivate: [PermissionGuard(['list_roles'])],
+            canActivate: [PermissionGuard(['list_roles', 'create_roles'])],
+          },
+          {
+            path: 'create',
+            title: 'Create Role',
+            component: RoleCreateComponent,
+            canActivate: [PermissionGuard(['create_roles'])],
+          },
+          {
+            path: ':id',
+            title: 'Role Page',
+            component: RoleUpdateComponent,
+            canActivate: [PermissionGuard(['view_roles', 'update_roles'])],
+          },
+          {
+            path: '**',
+            redirectTo: '',
           },
         ],
       },

@@ -77,7 +77,7 @@
     </mat-form-field>
   </div>
 
-  <div [class]="{ 'align-items': true, 'margin-top': page === 'createUser' }">
+  <div [class]="{ 'align-items': true, 'buttons': page === 'createUser' }">
     <button
       mat-raised-button
       type="submit"
@@ -92,6 +92,8 @@
       color="warn"
       *ngIf="page === 'createUser'"
       (click)="onCancel()"
-    >Cancel</button>
+    >
+      Cancel
+    </button>
   </div>
 </form>

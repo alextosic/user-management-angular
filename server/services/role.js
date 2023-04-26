@@ -32,7 +32,7 @@ class RoleService {
 
   async create(data) {
     const { name, permissions } = data;
-    const role = await this.getByName(name);
+    const role = await this.repository.findByName(name);
 
     if (role) {
       throw new ErrorResponse('service', 409, 'Role with that name already exists.');

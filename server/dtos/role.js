@@ -3,7 +3,10 @@ class RoleDTO {
     this.id = _id;
     this.name = name;
     this.immutable = immutable;
-    this.permissions = permissions;
+    this.permissions = permissions.map((permission) => ({
+      id: permission._id,
+      name: permission.name,
+    }));
   }
 
   toJson() {

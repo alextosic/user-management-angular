@@ -13,10 +13,12 @@ export class UserService {
   userListUpdated$ = new BehaviorSubject<Array<UserModel>>([]);
   userTotalUpdated$ = new BehaviorSubject<number>(0);
 
+  private apiUrl = `${environment.apiUrl}/user`;
+
   constructor(private httpClient: HttpClient) {}
 
   getUserList(page: number, perPage: number) {
-    const url = `${environment.apiUrl}/user/all`;
+    const url = `${this.apiUrl}/all`;
     const options = { params: new HttpParams({ fromObject: { page, perPage } }) };
 
     return this.httpClient.get<HttpResponseModel<UserListResponseModel>>(url, options)
@@ -36,7 +38,7 @@ export class UserService {
   }
 
   getUser(id: string) {
-    const url = `${environment.apiUrl}/user/${id}`;
+    const url = `${this.apiUrl}/${id}`;
     return this.httpClient.get<HttpResponseModel<UserModel>>(url)
       .pipe(
         map(response => response?.data)
@@ -44,17 +46,16 @@ export class UserService {
   }
 
   createUser(data: UserCreateModel) {
-    const url = `${environment.apiUrl}/user`;
-    return this.httpClient.post<HttpResponseModel<undefined>>(url, data);
+    return this.httpClient.post<HttpResponseModel<undefined>>(this.apiUrl, data);
   }
 
   updateUser(id: string, data: UserUpdateModel) {
-    const url = `${environment.apiUrl}/user/${id}`;
+    const url = `${this.apiUrl}/${id}`;
     return this.httpClient.patch<HttpResponseModel<undefined>>(url, data);
   }
 
   deleteUser(id: string) {
-    const url = `${environment.apiUrl}/user/${id}`;
+    const url = `${this.apiUrl}/${id}`;
     return this.httpClient.delete<HttpResponseModel<undefined>>(url);
   }
 }

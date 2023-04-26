@@ -3,6 +3,9 @@
 
   <div class="page-content">
     <div class="role-content">
+      <div class="create-wrapper" *cdpPermissions="['create_roles']">
+        <a mat-raised-button [routerLink]="'/role/create'" color="primary">Create Role</a>
+      </div>
       <mat-table [dataSource]="roleList" *cdpPermissions="['list_roles']">
 
         <ng-container matColumnDef="name">

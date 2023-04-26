@@ -13,6 +13,8 @@ export class ProfileService {
   profileData: ProfileModel | undefined;
   profileDataChanged$ = new BehaviorSubject<ProfileModel | undefined>(undefined);
 
+  private apiUrl = `${environment.apiUrl}/profile`;
+
   constructor(private httpClient: HttpClient) {}
 
   getProfile(): Observable<ProfileModel | undefined> {
@@ -26,9 +28,7 @@ export class ProfileService {
   }
 
   fetchProfile() {
-    const url = `${environment.apiUrl}/profile`;
-
-    return this.httpClient.get<HttpResponseModel<ProfileModel>>(url)
+    return this.httpClient.get<HttpResponseModel<ProfileModel>>(this.apiUrl)
       .pipe(
         map(response => response?.data)
       )
@@ -45,9 +45,7 @@ export class ProfileService {
   }
 
   updateProfile(data: ProfileUpdateModel) {
-    const url = `${environment.apiUrl}/profile`;
-
-    return this.httpClient.patch<HttpResponseModel<ProfileModel>>(url, data)
+    return this.httpClient.patch<HttpResponseModel<ProfileModel>>(this.apiUrl, data)
       .pipe(
         map(response => response?.data)
       )

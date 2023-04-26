@@ -18,7 +18,7 @@ export class UserListComponent implements OnInit {
 
   total: number = 0;
   page: number = 0;
-  perPage: number = 10;
+  perPage: number = 5;
 
   constructor(private userService: UserService, private deleteDialog: MatDialog) {}
 
