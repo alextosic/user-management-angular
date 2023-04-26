@@ -8,7 +8,7 @@ import { UpdateUserFormModel } from './update-user-form.model';
 @Component({
   selector: 'cdp-update-user-form',
   templateUrl: './update-user-form.component.html',
-  styleUrls: ['./update-user-form.component.scss'],
+  styleUrls: ['../../shared/form.styles.scss'],
 })
 export class UpdateUserFormComponent implements OnInit {
   @Input() updateData: ProfileModel | UserModel | undefined = undefined;

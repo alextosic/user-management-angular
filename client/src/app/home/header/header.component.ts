@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
 import { ProfileModel } from '../../profile/profile.model';
@@ -14,6 +14,8 @@ import { AuthService } from '../../auth/auth.service';
 export class HeaderComponent implements OnInit {
   profileData: Observable<ProfileModel | undefined> = new Observable();
 
+  private currentUrl: string = '';
+
   constructor(
     private router: Router,
     private authService: AuthService,
@@ -22,9 +24,20 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     this.profileData = this.profileService.profileDataChanged$.asObservable();
+
+    this.currentUrl = this.router.url;
+    this.router.events.subscribe((routerEvent) => {
+      if (routerEvent instanceof NavigationEnd) {
+        this.currentUrl = routerEvent.url;
+      }
+    });
   }
 
   logout() {
     this.authService.logout().subscribe();
+  }
+
+  urlContains(urlPart: string, exact?: boolean): boolean {
+    return exact ? this.currentUrl === urlPart : this.currentUrl?.indexOf(urlPart) > -1;
   }
 }

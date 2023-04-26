@@ -13,25 +13,21 @@
 
   <ng-template #viewUser>
 
-    <div>
-      <mat-form-field class="form-field" appearance="outline">
-        <mat-label>Email</mat-label>
-        <input matInput type="email" name="email" disabled [value]="userData?.email" />
-      </mat-form-field>
-    </div>
+    <div class="list">
+      <div class="list-item">
+        <h4 matListItemTitle>Email:</h4>
+        <h3 matListItemLine>{{ userData?.email }}</h3>
+      </div>
 
-    <div>
-      <mat-form-field class="form-field" appearance="outline">
-        <mat-label>First Name</mat-label>
-        <input matInput type="text" name="firstName" disabled [value]="userData?.firstName" />
-      </mat-form-field>
-    </div>
+      <div class="list-item">
+        <h4 matListItemTitle>First Name:</h4>
+        <h3 matListItemLine>{{ userData?.firstName }}</h3>
+      </div>
 
-    <div>
-      <mat-form-field class="form-field" appearance="outline">
-        <mat-label>Last Name</mat-label>
-        <input matInput type="text" name="lastName" disabled [value]="userData?.lastName" />
-      </mat-form-field>
+      <div class="list-item">
+        <h4 matListItemTitle>Last Name:</h4>
+        <h3 matListItemLine>{{ userData?.lastName }}</h3>
+      </div>
     </div>
 
     <div class="buttons align-items">

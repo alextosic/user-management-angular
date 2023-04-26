@@ -1,0 +1,46 @@
+<div class="page">
+  <div class="mat-headline-4">Create Role</div>
+
+  <div class="page-content">
+    <form #createForm="ngForm" (submit)="onSubmit(createForm)">
+      <div>
+        <mat-form-field appearance="outline" class="half-width">
+          <mat-label>Name</mat-label>
+          <input matInput type="text" name="name" required ngModel #name="ngModel" class="uppercase" />
+          <mat-error *ngIf="name.invalid && name.errors?.['required']">
+            Please enter the role name.
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field appearance="outline" class="half-width">
+          <mat-label>Permissions</mat-label>
+          <mat-select name="permissions" ngModel #permissions="ngModel" multiple>
+            <mat-option *ngFor="let permission of permissionList" [value]="permission.id">
+              {{ permission.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="buttons align-items">
+        <button
+          mat-raised-button
+          type="submit"
+          color="primary"
+        >
+          Create
+        </button>
+        <button
+          mat-raised-button
+          type="button"
+          color="warn"
+          (click)="onCancel()"
+        >
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

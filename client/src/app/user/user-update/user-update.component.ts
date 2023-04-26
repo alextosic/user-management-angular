@@ -7,10 +7,10 @@ import { UserModel, UserUpdateModel } from '../user.model';
 @Component({
   selector: 'cdp-user-update',
   templateUrl: './user-update.component.html',
-  styleUrls: ['./user-update.component.scss'],
+  styleUrls: ['../../shared/form.styles.scss', './user-update.component.scss'],
 })
 export class UserUpdateComponent implements OnInit {
-  userData: UserModel | undefined = undefined;
+  userData: UserModel | undefined;
 
   constructor(
     private userService: UserService,
@@ -41,6 +41,4 @@ export class UserUpdateComponent implements OnInit {
   async onCancel() {
     await this.router.navigate(['/user']);
   }
-
-  protected readonly undefined = undefined;
 }

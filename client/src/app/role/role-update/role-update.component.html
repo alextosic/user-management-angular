@@ -1,0 +1,86 @@
+<div class="page">
+  <div class="mat-headline-4">Role Page</div>
+
+  <ng-container *cdpPermissions="roleData?.immutable ? [] : ['update_roles']; else viewRole">
+    <form [formGroup]="updateForm" *ngIf="updateForm" (ngSubmit)="onSubmit()">
+
+      <div>
+        <mat-form-field class="half-width" appearance="outline">
+          <mat-label>Name</mat-label>
+          <input matInput type="text" name="name" required formControlName="name" />
+          <mat-error *ngIf="updateForm.get('name')?.errors?.['required']">
+            Please enter the role name.
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field appearance="outline" class="half-width">
+          <mat-label>Permissions</mat-label>
+          <mat-select name="permissions" formControlName="permissions" multiple>
+            <mat-option *ngFor="let permission of permissionList" [value]="permission.id">
+              {{ permission.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="buttons align-items">
+        <button
+          mat-raised-button
+          type="submit"
+          color="primary"
+        >
+          Save
+        </button>
+        <button
+          mat-raised-button
+          type="button"
+          color="warn"
+          (click)="onCancel()"
+        >
+          Cancel
+        </button>
+      </div>
+
+    </form>
+  </ng-container>
+
+  <ng-template #viewRole>
+
+    <div class="list">
+      <div class="list-item">
+        <h4 matListItemTitle>Name:</h4>
+        <h3 matListItemLine>{{ roleData?.name }}</h3>
+      </div>
+
+      <div class="list-item">
+        <h4 matListItemTitle>Permissions:</h4>
+        <h3 matListItemLine>
+          <ng-container *ngIf="roleData?.permissions?.length; else noPermissions">
+            <mat-chip-listbox>
+              <ng-container *ngFor="let permission of roleData?.permissions">
+                <mat-chip>{{ permission.name }}</mat-chip>
+              </ng-container>
+            </mat-chip-listbox>
+          </ng-container>
+          <ng-template #noPermissions>
+            <i>No permissions</i>
+          </ng-template>
+        </h3>
+      </div>
+    </div>
+
+    <div class="buttons align-items">
+      <a
+        mat-raised-button
+        type="button"
+        color="primary"
+        [routerLink]="['/role']"
+      >
+        Back
+      </a>
+    </div>
+
+  </ng-template>
+</div>

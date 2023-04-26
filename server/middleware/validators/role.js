@@ -8,8 +8,8 @@ class RoleValidator extends BaseValidator {
       .isRequired(body('name'), 'Name', required)
       .escape()
       .trim()
-      .isAlphanumeric()
-      .withMessage('Name can only contain letters and numbers.');
+      .matches('^[A-Za-z0-9_]*$')
+      .withMessage('Name can only contain letters, numbers, and underscores.');
   }
 
   validatePermissions(required) {

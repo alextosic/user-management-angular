@@ -18,6 +18,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatListModule } from '@angular/material/list';
+import { MatSelectModule } from '@angular/material/select';
 
 import { RoutingModule } from './routing/routing.module';
 import { HttpRequestInterceptor } from './http-request.interceptor';
@@ -39,6 +41,8 @@ import { UserListComponent } from './user/user-list/user-list.component';
 import { UserCreateComponent } from './user/user-create/user-create.component';
 import { UserUpdateComponent } from './user/user-update/user-update.component';
 import { RoleListComponent } from './role/role-list/role-list.component';
+import { RoleCreateComponent } from './role/role-create/role-create.component';
+import { RoleUpdateComponent } from './role/role-update/role-update.component';
 
 import { PermissionDirective } from './permission/permission.directive';
 import { ArrayToStringPipe } from './shared/array-to-string.pipe';
@@ -61,6 +65,8 @@ import { ArrayToStringPipe } from './shared/array-to-string.pipe';
     UserCreateComponent,
     UserUpdateComponent,
     RoleListComponent,
+    RoleCreateComponent,
+    RoleUpdateComponent,
 
     PermissionDirective,
     ArrayToStringPipe,
@@ -86,6 +92,8 @@ import { ArrayToStringPipe } from './shared/array-to-string.pipe';
     MatDialogModule,
     MatCheckboxModule,
     MatChipsModule,
+    MatListModule,
+    MatSelectModule,
 
     RoutingModule,
   ],
