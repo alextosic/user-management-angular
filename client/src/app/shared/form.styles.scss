@@ -1,6 +1,17 @@
-mat-form-field {
+.form-field {
   width: 100%;
-  margin-top: 2rem;
+
+  mat-form-field, mat-checkbox {
+    width: 100%;
+  }
+
+  mat-checkbox {
+    margin-bottom: 1rem;
+  }
+
+  &:not(:last-child) {
+    margin-bottom: 1rem;
+  }
 
   &.half-width {
     width: 50%;
@@ -8,7 +19,11 @@ mat-form-field {
 }
 
 .buttons {
-  margin-top: 6rem;
+  margin-top: 1rem;
+
+  &.admin-page {
+    margin-top: 3rem;
+  }
 
   button {
     &.full {

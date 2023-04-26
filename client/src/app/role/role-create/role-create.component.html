@@ -3,8 +3,8 @@
 
   <div class="page-content">
     <form #createForm="ngForm" (submit)="onSubmit(createForm)">
-      <div>
-        <mat-form-field appearance="outline" class="half-width">
+      <div class="form-field half-width">
+        <mat-form-field appearance="outline">
           <mat-label>Name</mat-label>
           <input matInput type="text" name="name" required ngModel #name="ngModel" class="uppercase" />
           <mat-error *ngIf="name.invalid && name.errors?.['required']">
@@ -13,8 +13,8 @@
         </mat-form-field>
       </div>
 
-      <div>
-        <mat-form-field appearance="outline" class="half-width">
+      <div class="form-field half-width">
+        <mat-form-field appearance="outline">
           <mat-label>Permissions</mat-label>
           <mat-select name="permissions" ngModel #permissions="ngModel" multiple>
             <mat-option *ngFor="let permission of permissionList" [value]="permission.id">
@@ -24,7 +24,7 @@
         </mat-form-field>
       </div>
 
-      <div class="buttons align-items">
+      <div class="buttons admin-page align-items">
         <button
           mat-raised-button
           type="submit"
