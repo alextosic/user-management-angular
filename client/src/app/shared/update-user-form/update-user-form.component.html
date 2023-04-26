@@ -1,7 +1,7 @@
 <form [formGroup]="updateForm" *ngIf="updateForm" (ngSubmit)="onSubmit()">
 
-  <div>
-    <mat-form-field class="half-width" appearance="outline">
+  <div class="form-field half-width">
+    <mat-form-field appearance="outline">
       <mat-label>Email</mat-label>
       <input matInput type="email" name="email" required email formControlName="email" />
       <mat-error *ngIf="updateForm.get('email')?.errors?.['required']">
@@ -13,8 +13,8 @@
     </mat-form-field>
   </div>
 
-  <div>
-    <mat-form-field class="half-width" appearance="outline">
+  <div class="form-field half-width">
+    <mat-form-field appearance="outline">
       <mat-label>First Name</mat-label>
       <input matInput type="text" name="firstName" required formControlName="firstName" />
       <mat-error *ngIf="updateForm.get('firstName')?.errors?.['required']">
@@ -23,8 +23,8 @@
     </mat-form-field>
   </div>
 
-  <div>
-    <mat-form-field class="half-width" appearance="outline">
+  <div class="form-field half-width">
+    <mat-form-field appearance="outline">
       <mat-label>Last Name</mat-label>
       <input matInput type="text" name="lastName" required formControlName="lastName" />
       <mat-error *ngIf="updateForm.get('lastName')?.errors?.['required']">
@@ -33,15 +33,15 @@
     </mat-form-field>
   </div>
 
-  <div *ngIf="page === 'updateUser'">
+  <div class="form-field half-width" *ngIf="page === 'updateUser'">
     <mat-checkbox [checked]="editable" (change)="editable ? disableEdit() : enableEdit()">
       Edit password?
     </mat-checkbox>
   </div>
 
   <div *ngIf="page === 'updateUser' && editable">
-    <div>
-      <mat-form-field class="half-width" appearance="outline">
+    <div class="form-field half-width">
+      <mat-form-field appearance="outline">
         <mat-label>Password</mat-label>
         <input matInput type="password" name="password" required formControlName="password" />
         <mat-error *ngIf="updateForm.get('password')?.errors?.['required']">
@@ -50,8 +50,8 @@
       </mat-form-field>
     </div>
 
-    <div>
-      <mat-form-field class="half-width" appearance="outline">
+    <div class="form-field half-width">
+      <mat-form-field appearance="outline">
         <mat-label>Confirm Password</mat-label>
         <input
           matInput
@@ -71,7 +71,7 @@
     </div>
   </div>
 
-  <div class="buttons align-items">
+  <div class="buttons align-items" [class]="{ 'admin-page': page === 'updateUser' }">
     <button
       mat-raised-button
       type="button"
