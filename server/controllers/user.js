@@ -64,7 +64,7 @@ class UserController extends BaseController {
       const updatedUser = await this.userService.update(id, {
         ...req.body,
         password: hashedPassword,
-      }, true);
+      });
 
       const updatedUserDTO = new UserDTO(updatedUser).toJson();
       return this.sendResponse(res, new SuccessResponse(200, 'User updated successfully.', updatedUserDTO));

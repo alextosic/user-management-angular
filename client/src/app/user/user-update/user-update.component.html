@@ -1,0 +1,49 @@
+<div class="page">
+  <div class="mat-headline-4">User Page</div>
+
+  <ng-container *cdpPermissions="userData?.immutable ? [] : ['update_users']; else viewUser">
+    <cdp-update-user-form
+      page="updateUser"
+      *ngIf="userData"
+      [updateData]="userData"
+      (cdpSubmit)="onSubmit($event)"
+      (cdpCancel)="onCancel()"
+    />
+  </ng-container>
+
+  <ng-template #viewUser>
+
+    <div>
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" name="email" disabled [value]="userData?.email" />
+      </mat-form-field>
+    </div>
+
+    <div>
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label>First Name</mat-label>
+        <input matInput type="text" name="firstName" disabled [value]="userData?.firstName" />
+      </mat-form-field>
+    </div>
+
+    <div>
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label>Last Name</mat-label>
+        <input matInput type="text" name="lastName" disabled [value]="userData?.lastName" />
+      </mat-form-field>
+    </div>
+
+    <div class="buttons align-items">
+      <a
+        mat-raised-button
+        type="button"
+        color="primary"
+        [routerLink]="['/user']"
+      >
+        Back
+      </a>
+    </div>
+
+  </ng-template>
+</div>

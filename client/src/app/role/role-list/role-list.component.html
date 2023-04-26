@@ -1,0 +1,76 @@
+<div class="page">
+  <div class="mat-headline-4">Role List</div>
+
+  <div class="page-content">
+    <div class="role-content">
+      <mat-table [dataSource]="roleList" *cdpPermissions="['list_roles']">
+
+        <ng-container matColumnDef="name">
+          <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element.name }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="permissions">
+          <mat-header-cell *matHeaderCellDef>Permissions</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <ng-container *ngIf="element.permissions.length; else noPermissions">
+              <mat-chip-listbox>
+                <ng-container *ngFor="let permission of element.permissions">
+                  <mat-chip>{{ permission.name }}</mat-chip>
+                </ng-container>
+              </mat-chip-listbox>
+            </ng-container>
+            <ng-template #noPermissions>
+              <i>No permissions</i>
+            </ng-template>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <mat-header-cell *matHeaderCellDef class="align-center">
+            <ng-container *cdpPermissions="['update_roles', 'delete_roles']">
+              Actions
+            </ng-container>
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element" class="align-center">
+            <ng-container
+              *cdpPermissions="element.immutable ? [] : ['update_roles']; else viewButton"
+            >
+              <a mat-icon-button [routerLink]="['/role', element.id]" matTooltip="Update">
+                <mat-icon color="primary">edit</mat-icon>
+              </a>
+            </ng-container>
+
+            <ng-template #viewButton>
+              <a mat-icon-button [routerLink]="['/role', element.id]" matTooltip="View">
+                <mat-icon color="primary">remove_red_eye</mat-icon>
+              </a>
+            </ng-template>
+
+            <ng-container *cdpPermissions="element.immutable ? [] : ['delete_roles']">
+              <button
+                mat-icon-button
+                (click)="deleteRole(element.id, element.name)"
+                matTooltip="Delete"
+              >
+                <mat-icon color="warn">delete</mat-icon>
+              </button>
+            </ng-container>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="columns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: columns;"></mat-row>
+      </mat-table>
+    </div>
+
+    <mat-paginator
+      [pageSizeOptions]="[1, 5, 10, 20]"
+      [pageSize]="perPage"
+      [length]="total"
+      [pageIndex]="page"
+      showFirstLastButtons
+      (page)="onPageEvent($event)"
+    ></mat-paginator>
+  </div>
+</div>

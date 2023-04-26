@@ -7,7 +7,7 @@ import { environment } from '../../environments/environment';
 import { HttpResponseModel } from '../http-response.model';
 import { LoginRequestModel, LoginResponseModel } from './login/login.model';
 import { RegisterRequestModel } from './register/register.model';
-import { ProfileService } from '../home/profile/profile.service';
+import { ProfileService } from '../profile/profile.service';
 import { ForgotPasswordResponseModel } from './forgot-password/forgot-password.model';
 import { UpdatePasswordRequestModel } from './update-password/update-password.model';
 

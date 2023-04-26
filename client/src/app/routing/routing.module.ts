@@ -6,18 +6,16 @@ import { ForgotPasswordComponent } from '../auth/forgot-password/forgot-password
 import { LoginComponent } from '../auth/login/login.component';
 import { RegisterComponent } from '../auth/register/register.component';
 import { HomeComponent } from '../home/home.component';
-import { ProfileComponent } from '../home/profile/profile.component';
-import { AdminComponent } from '../admin/admin.component';
-import { UserListComponent } from '../admin/user/user-list/user-list.component';
-import { UserCreateComponent } from '../admin/user/user-create/user-create.component';
-import { UserUpdateComponent } from '../admin/user/user-update/user-update.component';
+import { ProfileComponent } from '../profile/profile.component';
+import { UserListComponent } from '../user/user-list/user-list.component';
+import { UserCreateComponent } from '../user/user-create/user-create.component';
+import { UserUpdateComponent } from '../user/user-update/user-update.component';
+import { RoleListComponent } from '../role/role-list/role-list.component';
 
 import { AuthLoggedInGuard, AuthLoggedOutGuard } from '../auth/auth.guard';
-import { PermissionGuard } from '../auth/permission/permission.guard';
+import { PermissionGuard } from '../permission/permission.guard';
 import { RoutingTitleStrategy } from './routing.title-strategy';
 import { UpdatePasswordComponent } from '../auth/update-password/update-password.component';
-
-import { defaultPermissions } from '../auth/permission/permission.constants';
 
 const routes: Routes = [
   {
@@ -62,39 +60,40 @@ const routes: Routes = [
         component: ProfileComponent,
       },
       {
-        path: 'admin',
-        component: AdminComponent,
+        path: 'user',
         children: [
           {
-            path: 'user',
-            children: [
-              {
-                path: '',
-                title: 'User List',
-                component: UserListComponent,
-                canActivate: [PermissionGuard(['list_users'])],
-              },
-              {
-                path: 'create',
-                title: 'Create User',
-                component: UserCreateComponent,
-                canActivate: [PermissionGuard(['create_users'])],
-              },
-              {
-                path: ':id',
-                title: 'User Page',
-                component: UserUpdateComponent,
-                canActivate: [PermissionGuard(['view_users'])],
-              },
-              {
-                path: '**',
-                redirectTo: '',
-              },
-            ],
+            path: '',
+            title: 'User List',
+            component: UserListComponent,
+            canActivate: [PermissionGuard(['list_users'])],
+          },
+          {
+            path: 'create',
+            title: 'Create User',
+            component: UserCreateComponent,
+            canActivate: [PermissionGuard(['create_users'])],
+          },
+          {
+            path: ':id',
+            title: 'User Page',
+            component: UserUpdateComponent,
+            canActivate: [PermissionGuard(['view_users'])],
           },
           {
             path: '**',
-            redirectTo: 'user',
+            redirectTo: '',
+          },
+        ],
+      },
+      {
+        path: 'role',
+        children: [
+          {
+            path: '',
+            title: 'Role List',
+            component: RoleListComponent,
+            canActivate: [PermissionGuard(['list_roles'])],
           },
         ],
       },

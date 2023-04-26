@@ -2,18 +2,18 @@ const BaseRepository = require('./base');
 const UserModel = require('../models/user');
 
 class UserRepository extends BaseRepository {
-  async findAll(adminRoleId, pagination) {
+  async findAll(pagination) {
     const { page = 0, perPage = 0 } = pagination;
 
     return super.find(
-      { role: { $ne: adminRoleId } },
+      {},
       { skip: page * perPage, limit: perPage },
       { path: 'role', populate: { path: 'permissions' } },
     );
   }
 
-  async countAll(adminRoleId) {
-    return super.count({ role: { $ne: adminRoleId } });
+  async countAll() {
+    return super.count({});
   }
 
   async findById(id) {

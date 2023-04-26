@@ -17,14 +17,16 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatChipsModule } from '@angular/material/chips';
 
 import { RoutingModule } from './routing/routing.module';
 import { HttpRequestInterceptor } from './http-request.interceptor';
 import { HttpResponseInterceptor } from './http-response.interceptor';
 
 import { AppComponent } from './app.component';
-import { CreateFormComponent } from './shared/create-form/create-form.component';
-import { UpdateFormComponent } from './shared/update-form/update-form.component';
+import { DeleteDialog } from './shared/delete-dialog/delete.dialog';
+import { CreateUserFormComponent } from './shared/create-user-form/create-user-form.component';
+import { UpdateUserFormComponent } from './shared/update-user-form/update-user-form.component';
 import { AuthComponent } from './auth/auth.component';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
@@ -32,20 +34,21 @@ import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.
 import { UpdatePasswordComponent } from './auth/update-password/update-password.component';
 import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './home/header/header.component';
-import { ProfileComponent } from './home/profile/profile.component';
-import { AdminComponent } from './admin/admin.component';
-import { UserDeleteDialog } from './admin/user/user-delete.dialog';
-import { UserListComponent } from './admin/user/user-list/user-list.component';
-import { UserCreateComponent } from './admin/user/user-create/user-create.component';
-import { UserUpdateComponent } from './admin/user/user-update/user-update.component';
+import { ProfileComponent } from './profile/profile.component';
+import { UserListComponent } from './user/user-list/user-list.component';
+import { UserCreateComponent } from './user/user-create/user-create.component';
+import { UserUpdateComponent } from './user/user-update/user-update.component';
+import { RoleListComponent } from './role/role-list/role-list.component';
 
-import { PermissionDirective } from './auth/permission/permission.directive';
+import { PermissionDirective } from './permission/permission.directive';
+import { ArrayToStringPipe } from './shared/array-to-string.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
-    CreateFormComponent,
-    UpdateFormComponent,
+    DeleteDialog,
+    CreateUserFormComponent,
+    UpdateUserFormComponent,
     AuthComponent,
     LoginComponent,
     RegisterComponent,
@@ -54,13 +57,13 @@ import { PermissionDirective } from './auth/permission/permission.directive';
     HomeComponent,
     HeaderComponent,
     ProfileComponent,
-    AdminComponent,
     UserListComponent,
-    UserDeleteDialog,
     UserCreateComponent,
     UserUpdateComponent,
+    RoleListComponent,
 
     PermissionDirective,
+    ArrayToStringPipe,
   ],
   imports: [
     BrowserModule,
@@ -82,6 +85,7 @@ import { PermissionDirective } from './auth/permission/permission.directive';
     MatTooltipModule,
     MatDialogModule,
     MatCheckboxModule,
+    MatChipsModule,
 
     RoutingModule,
   ],

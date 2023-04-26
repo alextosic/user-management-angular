@@ -9,7 +9,11 @@ module.exports = {
         ? permissions.map((permission) => permission._id)
         : [];
 
-      await db.collection('roles').insertOne({ name: roleName, permissions: rolePermissions });
+      await db.collection('roles').insertOne({
+        name: roleName,
+        permissions: rolePermissions,
+        immutable: true,
+      });
     }));
   },
 

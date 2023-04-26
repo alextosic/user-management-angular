@@ -20,7 +20,7 @@ class ProfileController extends BaseController {
   updateProfile() {
     return async (req, res, next) => this.handleRequest(async () => {
       const { _id: id } = req.user;
-      const updatedProfile = await this.userService.update(id, req.body);
+      const updatedProfile = await this.userService.update(id, req.body, true);
       const updatedProfileDTO = new ProfileDTO(updatedProfile).toJson();
 
       return this.sendResponse(res, new SuccessResponse(200, 'Profile updated successfully.', updatedProfileDTO));

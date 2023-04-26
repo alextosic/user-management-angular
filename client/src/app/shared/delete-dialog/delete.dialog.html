@@ -1,0 +1,11 @@
+<h1 mat-dialog-title>Delete {{ data.model | titlecase }}</h1>
+<div mat-dialog-content>
+  <p>
+    Are you sure you want to delete the {{ data.model }} with the {{ data.field }}
+    <b>{{ data.value }}</b>?
+  </p>
+</div>
+<div mat-dialog-actions>
+  <button mat-flat-button [mat-dialog-close]="false">No</button>
+  <button mat-raised-button color="warn" [mat-dialog-close]="true">Yes</button>
+</div>
