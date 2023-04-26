@@ -1,8 +1,9 @@
 mat-form-field {
   width: 100%;
+  margin-top: 2rem;
 
-  &:not(:last-child) {
-    margin-bottom: 1rem;
+  &.half-width {
+    width: 50%;
   }
 }
 
@@ -17,5 +18,5 @@ button {
 }
 
 .margin-top {
-  margin-top: 2rem;
+  margin-top: 4rem;
 }

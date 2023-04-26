@@ -23,6 +23,10 @@ const userSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.UUID,
     default: null,
   },
+  immutable: {
+    type: Boolean,
+    default: false,
+  },
   role: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'role',

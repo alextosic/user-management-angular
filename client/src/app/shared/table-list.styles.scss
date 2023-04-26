@@ -23,6 +23,10 @@
   margin-bottom: 2rem;
 }
 
+mat-cell, mat-header-cell {
+  padding: 0.5rem;
+}
+
 mat-paginator {
   margin-top: 2rem;
 }

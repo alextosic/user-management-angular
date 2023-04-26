@@ -3,6 +3,7 @@ export interface UserModel {
   email: string;
   firstName: string;
   lastName: string;
+  immutable: boolean;
 }
 
 export interface UserListResponseModel {

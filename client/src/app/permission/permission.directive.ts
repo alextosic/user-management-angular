@@ -1,17 +1,12 @@
-import { Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
+import { Directive, Input, OnInit, TemplateRef, ViewContainerRef } from '@angular/core';
 
 import { ProfileService } from '../profile/profile.service';
-
-interface PermissionDirectiveParam {
-  allowedPermissions: Array<string>;
-  disallowedPermissions?: Array<string>;
-}
 
 @Directive({
   selector: '[cdpPermissions]',
 })
-export class PermissionDirective {
-  private hasView = false;
+export class PermissionDirective implements OnInit {
+  private show = false;
 
   constructor(
     private template: TemplateRef<any>,
@@ -19,19 +14,26 @@ export class PermissionDirective {
     private profileService: ProfileService,
   ) {}
 
-  @Input() set cdpPermissions({ allowedPermissions, disallowedPermissions = [] }: PermissionDirectiveParam) {
-    const shouldView = this.profileService.profileData?.permissions
-      .some((permission) => allowedPermissions.indexOf(permission) > -1);
+  ngOnInit() {
+    this.renderTemplate();
+  }
 
-    const shouldNotView = this.profileService.profileData?.permissions
-      .some((permission) => disallowedPermissions.indexOf(permission) > -1);
+  @Input() set cdpPermissions(permissions: Array<string>) {
+    this.show = this.profileService.profileData?.permissions
+      .some((permission) => permissions.indexOf(permission) > -1) || false;
 
-    if (shouldView && !shouldNotView && !this.hasView) {
+    this.renderTemplate();
+  }
+
+  @Input() cdpPermissionsElse?: TemplateRef<unknown>;
+
+  private renderTemplate() {
+    this.viewContainer.clear();
+
+    if (this.show) {
       this.viewContainer.createEmbeddedView(this.template);
-      this.hasView = true;
-    } else if (!shouldView && shouldNotView && this.hasView) {
-      this.viewContainer.clear();
-      this.hasView = false;
+    } else if (this.cdpPermissionsElse) {
+      this.viewContainer.createEmbeddedView(this.cdpPermissionsElse);
     }
   }
 }

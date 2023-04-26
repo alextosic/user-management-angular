@@ -17,6 +17,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatChipsModule } from '@angular/material/chips';
 
 import { RoutingModule } from './routing/routing.module';
 import { HttpRequestInterceptor } from './http-request.interceptor';
@@ -84,6 +85,7 @@ import { ArrayToStringPipe } from './shared/array-to-string.pipe';
     MatTooltipModule,
     MatDialogModule,
     MatCheckboxModule,
+    MatChipsModule,
 
     RoutingModule,
   ],

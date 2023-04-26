@@ -1,9 +1,10 @@
 class UserDTO {
-  constructor({ _id, email, firstName, lastName, role }) {
+  constructor({ _id, email, firstName, lastName, immutable, role }) {
     this.id = _id;
     this.email = email;
     this.firstName = firstName;
     this.lastName = lastName;
+    this.immutable = immutable;
 
     this.role = {
       id: role._id,
@@ -21,6 +22,7 @@ class UserDTO {
       email: this.email,
       firstName: this.firstName,
       lastName: this.lastName,
+      immutable: this.immutable,
       role: this.role,
     };
   }

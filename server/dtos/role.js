@@ -1,7 +1,8 @@
 class RoleDTO {
-  constructor({ _id, name, permissions }) {
+  constructor({ _id, name, immutable, permissions }) {
     this.id = _id;
     this.name = name;
+    this.immutable = immutable;
     this.permissions = permissions;
   }
 
@@ -9,6 +10,7 @@ class RoleDTO {
     return {
       id: this.id,
       name: this.name,
+      immutable: this.immutable,
       permissions: this.permissions,
     };
   }

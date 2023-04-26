@@ -6,6 +6,10 @@ const roleSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
+  immutable: {
+    type: Boolean,
+    default: false,
+  },
   permissions: [
     {
       type: mongoose.Schema.Types.ObjectId,

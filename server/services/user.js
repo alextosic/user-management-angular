@@ -1,15 +1,11 @@
 const uuid = require('uuid');
 
 const userRepository = require('../database/repositories/user');
-const roleRepository = require('../database/repositories/role');
 const ErrorResponse = require('../responses/error');
 
-const { defaultRoles } = require('../constants/role');
-
 class UserService {
-  constructor(userRepositoryParam, roleRepositoryParam) {
+  constructor(userRepositoryParam) {
     this.userRepository = userRepositoryParam;
-    this.roleRepository = roleRepositoryParam;
   }
 
   async getById(id) {
@@ -25,9 +21,8 @@ class UserService {
   }
 
   async getAll(pagination) {
-    const adminRole = await this.roleRepository.findByName(defaultRoles.ADMIN);
-    const users = await this.userRepository.findAll(adminRole._id, pagination);
-    const total = await this.userRepository.countAll(adminRole._id);
+    const users = await this.userRepository.findAll(pagination);
+    const total = await this.userRepository.countAll();
 
     return {
       users,
@@ -46,18 +41,22 @@ class UserService {
     return this.userRepository.create({ email, firstName, lastName, password, role });
   }
 
-  async update(id, data, updatePassword) {
+  async update(id, data, updatingProfile) {
     const user = await this.getById(id);
 
     if (!user) {
       throw new ErrorResponse('service', 400, 'User with that ID doesn\'t exist.');
     }
 
+    if (!updatingProfile && user.immutable) {
+      throw new ErrorResponse('service', 400, 'This user cannot be updated.');
+    }
+
     const { firstName, lastName, password } = data;
     await this.userRepository.updateById(id, {
       firstName,
       lastName,
-      ...(updatePassword && !!password && { password }),
+      ...(!updatingProfile && !!password && { password }),
     });
 
     return this.getById(id);
@@ -89,8 +88,12 @@ class UserService {
       throw new ErrorResponse('service', 400, 'User with that ID doesn\'t exist.');
     }
 
+    if (user.immutable) {
+      throw new ErrorResponse('service', 400, 'This user cannot be deleted.');
+    }
+
     return this.userRepository.deleteById(id);
   }
 }
 
-module.exports = new UserService(userRepository, roleRepository);
+module.exports = new UserService(userRepository);

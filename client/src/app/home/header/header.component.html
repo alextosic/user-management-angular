@@ -17,14 +17,14 @@
         </a>
         <a
           mat-menu-item [routerLink]="['/user']"
-          *cdpPermissions="{ allowedPermissions: ['list_users'] }"
+          *cdpPermissions="['list_users']"
         >
           <mat-icon>supervisor_account</mat-icon>
           <span>User Management</span>
         </a>
         <a
           mat-menu-item [routerLink]="['/role']"
-          *cdpPermissions="{ allowedPermissions: ['list_roles'] }"
+          *cdpPermissions="['list_roles']"
         >
           <mat-icon>assignment_ind</mat-icon>
           <span>Role Management</span>

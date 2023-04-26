@@ -41,4 +41,6 @@ export class UserUpdateComponent implements OnInit {
   async onCancel() {
     await this.router.navigate(['/user']);
   }
+
+  protected readonly undefined = undefined;
 }

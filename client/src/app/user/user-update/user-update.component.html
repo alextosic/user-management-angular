@@ -1,10 +1,17 @@
 <div class="page">
   <div class="mat-headline-4">User Page</div>
 
-  <ng-container *cdpPermissions="{
-    allowedPermissions: ['view_users'],
-    disallowedPermissions: ['update_users'],
-  }">
+  <ng-container *cdpPermissions="userData?.immutable ? [] : ['update_users']; else viewUser">
+    <cdp-update-user-form
+      page="updateUser"
+      *ngIf="userData"
+      [updateData]="userData"
+      (cdpSubmit)="onSubmit($event)"
+      (cdpCancel)="onCancel()"
+    />
+  </ng-container>
+
+  <ng-template #viewUser>
 
     <div>
       <mat-form-field class="form-field" appearance="outline">
@@ -37,15 +44,6 @@
         Back
       </a>
     </div>
-  </ng-container>
 
-  <ng-container *cdpPermissions="{ allowedPermissions: ['update_users'] }">
-    <cdp-update-user-form
-      page="updateUser"
-      *ngIf="userData"
-      [updateData]="userData"
-      (cdpSubmit)="onSubmit($event)"
-      (cdpCancel)="onCancel()"
-    />
-  </ng-container>
+  </ng-template>
 </div>
