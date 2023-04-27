@@ -52,11 +52,12 @@ class UserService {
       throw new ErrorResponse('service', 400, 'This user cannot be updated.');
     }
 
-    const { firstName, lastName, password } = data;
+    const { firstName, lastName, password, role } = data;
     await this.userRepository.updateById(id, {
       firstName,
       lastName,
       ...(!updatingProfile && !!password && { password }),
+      ...(!updatingProfile && { role }),
     });
 
     return this.getById(id);

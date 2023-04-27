@@ -13,7 +13,7 @@ import { DeleteDialog } from '../../shared/delete-dialog/delete.dialog';
   styleUrls: ['../../shared/table-list.styles.scss', './user-list.component.scss'],
 })
 export class UserListComponent implements OnInit {
-  columns: Array<string> = ['email', 'firstName', 'lastName', 'actions'];
+  columns: Array<string> = ['email', 'firstName', 'lastName', 'role', 'actions'];
   userList: MatTableDataSource<UserModel> = new MatTableDataSource<UserModel>();
 
   total: number = 0;

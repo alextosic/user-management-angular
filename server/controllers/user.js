@@ -47,7 +47,7 @@ class UserController extends BaseController {
 
       await this.userService.create({
         ...req.body,
-        role: userRole._id,
+        role: req.body.role || userRole._id,
         password: hashedPassword,
       });
 

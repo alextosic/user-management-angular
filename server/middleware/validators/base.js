@@ -15,7 +15,7 @@ class BaseValidator {
       .exists()
       .withMessage('ID is required.')
       .isAlphanumeric()
-      .withMessage('ID can only contain letters and numbers')
+      .withMessage('ID can only contain letters and numbers.')
       .escape()
       .trim()
       .isLength({ min: 24, max: 24 })

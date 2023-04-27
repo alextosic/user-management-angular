@@ -1,9 +1,12 @@
+import { RoleModel } from '../role/role.model';
+
 export interface UserModel {
   id: string;
   email: string;
   firstName: string;
   lastName: string;
   immutable: boolean;
+  role: RoleModel;
 }
 
 export interface UserListResponseModel {
@@ -17,6 +20,7 @@ export interface UserCreateModel {
   lastName: string;
   password: string;
   confirmPassword: string;
+  role: string;
 }
 
 export interface UserUpdateModel {

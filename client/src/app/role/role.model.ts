@@ -3,6 +3,7 @@ import { FormControl } from '@angular/forms';
 import { PermissionModel } from '../permission/permission.model';
 
 export interface RoleModel {
+  id: string;
   name: string;
   immutable: boolean;
   permissions: Array<PermissionModel>;

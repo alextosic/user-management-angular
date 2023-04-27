@@ -33,13 +33,31 @@
     </mat-form-field>
   </div>
 
+  <ng-container *cdpPermissions="['list_roles']">
+    <ng-container *ngIf="page === 'updateUser'">
+      <div class="form-field half-width">
+        <mat-form-field appearance="outline">
+          <mat-label>Role</mat-label>
+          <mat-select name="role" required ngModel formControlName="role">
+            <mat-option *ngFor="let role of roleList" [value]="role.id">
+              {{ role.name }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="updateForm.get('role')?.errors?.['required']">
+            Please select a role.
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </ng-container>
+  </ng-container>
+
   <div class="form-field half-width" *ngIf="page === 'updateUser'">
     <mat-checkbox [checked]="editable" (change)="editable ? disableEdit() : enableEdit()">
       Edit password?
     </mat-checkbox>
   </div>
 
-  <div *ngIf="page === 'updateUser' && editable">
+  <ng-container *ngIf="page === 'updateUser' && editable">
     <div class="form-field half-width">
       <mat-form-field appearance="outline">
         <mat-label>Password</mat-label>
@@ -69,7 +87,7 @@
         </mat-error>
       </mat-form-field>
     </div>
-  </div>
+  </ng-container>
 
   <div class="buttons align-items" [class]="{ 'admin-page': page === 'updateUser' }">
     <button
