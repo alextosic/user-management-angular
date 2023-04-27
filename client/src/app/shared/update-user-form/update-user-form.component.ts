@@ -1,9 +1,18 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 
 import { ProfileModel } from '../../profile/profile.model';
 import { UserModel } from '../../user/user.model';
 import { UpdateUserFormModel } from './update-user-form.model';
+import { RoleModel } from '../../role/role.model';
+import { RoleService } from '../../role/role.service';
+import { ProfileService } from '../../profile/profile.service';
 
 @Component({
   selector: 'cdp-update-user-form',
@@ -18,10 +27,13 @@ export class UpdateUserFormComponent implements OnInit {
   @Output() cdpCancel = new EventEmitter<any>();
 
   updateForm: FormGroup | undefined = undefined;
+  roleList: Array<RoleModel> = [];
   editable = false;
 
+  constructor(private roleService: RoleService, private profileService: ProfileService) {}
+
   ngOnInit() {
-    const updateFormData: UpdateUserFormModel = {
+    let updateFormData: UpdateUserFormModel = {
       email: new FormControl(this.updateData?.email),
       firstName: new FormControl(this.updateData?.firstName),
       lastName: new FormControl(this.updateData?.lastName),
@@ -29,6 +41,21 @@ export class UpdateUserFormComponent implements OnInit {
 
     this.updateForm = new FormGroup<any>(updateFormData);
     this.disableEdit();
+
+    if (
+      this.page === 'updateUser' &&
+      this.profileService.profileHasPermissions(['list_roles'])
+    ) {
+      const updateUserData = this.updateData as UserModel;
+
+      this.roleService.getRoleList().subscribe();
+      this.updateForm?.addControl('role', new FormControl());
+
+      this.roleService.roleListUpdated$.subscribe((roleList) => {
+        this.roleList = roleList;
+        this.updateForm?.get('role')?.setValue(updateUserData?.role?.id);
+      });
+    }
   }
 
   enableEdit() {
@@ -71,6 +98,9 @@ export class UpdateUserFormComponent implements OnInit {
         : undefined,
       confirmPassword: this.page === 'updateUser' && this.editable
         ? this.updateForm?.get('confirmPassword')?.value
+        : undefined,
+      role: this.page === 'updateUser'
+        ? this.updateForm?.get('role')?.value
         : undefined,
     });
   }

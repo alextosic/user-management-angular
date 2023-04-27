@@ -33,6 +33,24 @@
     </mat-form-field>
   </div>
 
+  <ng-container *ngIf="page === 'createUser'">
+    <ng-container *cdpPermissions="['list_roles']">
+      <div [class]="{ 'form-field': true, 'half-width': page === 'createUser'}">
+        <mat-form-field appearance="outline">
+          <mat-label>Role</mat-label>
+          <mat-select name="role" required ngModel #role="ngModel">
+            <mat-option *ngFor="let role of roleList" [value]="role.id">
+              {{ role.name }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="role.invalid && role.errors?.['required']">
+            Please select a role.
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </ng-container>
+  </ng-container>
+
   <div [class]="{ 'form-field': true, 'half-width': page === 'createUser'}">
     <mat-form-field appearance="outline">
       <mat-label>Password</mat-label>

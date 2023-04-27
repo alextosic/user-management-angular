@@ -17,7 +17,7 @@ export class RoleService {
 
   constructor(private httpClient: HttpClient) {}
 
-  getRoleList(page: number, perPage: number) {
+  getRoleList(page: number = 0, perPage: number = 0) {
     const url = `${this.apiUrl}/all`;
     const options = { params: new HttpParams({ fromObject: { page, perPage } }) };
 

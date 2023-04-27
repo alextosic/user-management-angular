@@ -27,6 +27,12 @@ export class ProfileService {
     return this.fetchProfile();
   }
 
+  profileHasPermissions(permissions: Array<string>): boolean {
+    return this.profileData?.permissions.some(
+      permission => permissions.indexOf(permission) > -1,
+    ) || false;
+  }
+
   fetchProfile() {
     return this.httpClient.get<HttpResponseModel<ProfileModel>>(this.apiUrl)
       .pipe(
