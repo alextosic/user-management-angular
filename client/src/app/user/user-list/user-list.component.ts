@@ -27,6 +27,11 @@ export class UserListComponent implements OnInit {
 
     this.userService.userListUpdated$.subscribe((userList) => {
       this.userList = new MatTableDataSource<UserModel>(userList);
+
+      if (userList.length === 0 && this.page > 0) {
+        this.page -= 1;
+        this.userService.getUserList(this.page, this.perPage).subscribe();
+      }
     });
 
     this.userService.userTotalUpdated$.subscribe((total) => {
@@ -36,6 +41,10 @@ export class UserListComponent implements OnInit {
 
   onPageEvent(pageEvent: PageEvent) {
     const { pageIndex, pageSize } = pageEvent;
+
+    this.perPage = pageSize;
+    this.page = pageIndex;
+
     this.userService.getUserList(pageIndex, pageSize).subscribe();
   }
 

@@ -27,6 +27,11 @@ export class RoleListComponent implements OnInit {
 
     this.roleService.roleListUpdated$.subscribe((roleList) => {
       this.roleList = new MatTableDataSource<RoleModel>(roleList);
+
+      if (roleList.length === 0 && this.page > 0) {
+        this.page -= 1;
+        this.roleService.getRoleList(this.page, this.perPage).subscribe();
+      }
     });
 
     this.roleService.roleTotalUpdated$.subscribe((total) => {
@@ -36,6 +41,10 @@ export class RoleListComponent implements OnInit {
 
   onPageEvent(pageEvent: PageEvent) {
     const { pageIndex, pageSize } = pageEvent;
+
+    this.perPage = pageSize;
+    this.page = pageIndex;
+
     this.roleService.getRoleList(pageIndex, pageSize).subscribe();
   }
 

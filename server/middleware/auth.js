@@ -12,7 +12,6 @@ class AuthMiddleware {
   authenticate() {
     return async (req, res, next) => {
       const authHeader = req.headers.authorization;
-      console.log(authHeader);
 
       if (!authHeader || !authHeader.length) {
         return next(new ErrorResponse('middleware', 401, 'User not logged in.'));
@@ -43,7 +42,6 @@ class AuthMiddleware {
   authorize(allowedPermissions) {
     return async (req, res, next) => {
       const { user } = req;
-      console.log(JSON.stringify(user));
 
       if (user.role.permissions.some(
         (permission) => allowedPermissions.indexOf(permission.name) > -1,
@@ -51,7 +49,7 @@ class AuthMiddleware {
         return next();
       }
 
-      return next(new ErrorResponse('middleware', 500, 'User is not allowed to access this resource or perform this operation.'));
+      return next(new ErrorResponse('middleware', 403, 'User is not allowed to access this resource or perform this operation.'));
     };
   }
 }
