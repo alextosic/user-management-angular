@@ -44,9 +44,11 @@
             </ng-container>
 
             <ng-template #viewButton>
-              <a mat-icon-button [routerLink]="['/user', element.id]" matTooltip="View">
-                <mat-icon color="primary">remove_red_eye</mat-icon>
-              </a>
+              <ng-container *cdpPermissions="['view_users']">
+                <a mat-icon-button [routerLink]="['/user', element.id]" matTooltip="View">
+                  <mat-icon color="primary">remove_red_eye</mat-icon>
+                </a>
+              </ng-container>
             </ng-template>
 
             <ng-container *cdpPermissions="element.immutable ? [] : ['delete_users']">
