@@ -1,4 +1,7 @@
 <div class="page">
   <div class="mat-headline-4">Profile</div>
-  <cdp-update-user-form page="profile" [updateData]="profileData" (cdpSubmit)="updateProfile($event)" />
+  <div class="flex">
+    <cdp-update-user-form page="profile" [updateData]="profileData" (cdpSubmit)="updateProfile($event)" />
+    <cdp-mfa></cdp-mfa>
+  </div>
 </div>

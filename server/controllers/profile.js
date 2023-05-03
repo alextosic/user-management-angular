@@ -1,13 +1,16 @@
 const userService = require('../services/user');
+const mfaService = require('../services/mfa');
 const BaseController = require('./base');
 const SuccessResponse = require('../responses/success');
 const ProfileDTO = require('../dtos/profile');
+const MfaDTO = require('../dtos/mfa');
 
 class ProfileController extends BaseController {
-  constructor(userServiceParam) {
+  constructor(userServiceParam, mfaServiceParam) {
     super();
 
     this.userService = userServiceParam;
+    this.mfaService = mfaServiceParam;
   }
 
   getProfile() {
@@ -35,6 +38,31 @@ class ProfileController extends BaseController {
       return this.sendResponse(res, new SuccessResponse(200, 'Profile deleted successfully.'));
     }, next);
   }
+
+  addMfa() {
+    return async (req, res, next) => this.handleRequest(async () => {
+      const { _id: id, firstName, lastName } = req.user;
+      const { type } = req.params;
+
+      let mfaId;
+
+      if (type === 'totp') {
+        mfaId = (await this.mfaService.createTotp(id, `${firstName} ${lastName}`))._id;
+      }
+
+      await this.userService.updateUser(id, { mfa: mfaId });
+      return this.sendResponse(res, new SuccessResponse(200, 'MFA added successfully.'));
+    }, next);
+  }
+
+  listMfas() {
+    return async (req, res, next) => this.handleRequest(async () => {
+      const { _id: id } = req.user;
+
+      const mfas = await this.mfaService.getAllByUser(id);
+      return this.sendResponse(res, new SuccessResponse(200, 'MFAs fetched successfully.', MfaDTO.fromArray(mfas)));
+    }, next);
+  }
 }
 
-module.exports = new ProfileController(userService);
+module.exports = new ProfileController(userService, mfaService);

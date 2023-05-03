@@ -2,9 +2,9 @@
   <div class="mat-headline-4">Role Page</div>
 
   <ng-container *cdpPermissions="roleData?.immutable ? [] : ['update_roles']; else viewRole">
-    <form [formGroup]="updateForm" *ngIf="updateForm" (ngSubmit)="onSubmit()">
+    <form class="half-width" [formGroup]="updateForm" *ngIf="updateForm" (ngSubmit)="onSubmit()">
 
-      <div class="form-field half-width">
+      <div class="form-field">
         <mat-form-field appearance="outline">
           <mat-label>Name</mat-label>
           <input matInput type="text" name="name" required formControlName="name" />
@@ -14,7 +14,7 @@
         </mat-form-field>
       </div>
 
-      <div class="form-field half-width">
+      <div class="form-field">
         <mat-form-field appearance="outline">
           <mat-label>Permissions</mat-label>
           <mat-select name="permissions" formControlName="permissions" multiple>

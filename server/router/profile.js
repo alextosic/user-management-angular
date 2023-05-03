@@ -25,4 +25,16 @@ router.delete(
   profileController.deleteProfile(),
 );
 
+router.get(
+  '/mfa',
+  authMiddleware.authenticate(),
+  profileController.listMfas(),
+);
+
+router.post(
+  '/mfa',
+  authMiddleware.authenticate(),
+  profileController.addMfa(),
+);
+
 module.exports = router;

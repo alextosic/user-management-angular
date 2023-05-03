@@ -1,6 +1,16 @@
-.form-field {
+:host {
+  display: contents;
+}
+
+form {
   width: 100%;
 
+  &.half-width {
+    width: 50%;
+  }
+}
+
+.form-field {
   mat-form-field, mat-checkbox {
     width: 100%;
   }
@@ -11,10 +21,6 @@
 
   &:not(:last-child) {
     margin-bottom: 1rem;
-  }
-
-  &.half-width {
-    width: 50%;
   }
 }
 

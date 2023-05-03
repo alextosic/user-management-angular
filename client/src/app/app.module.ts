@@ -43,6 +43,7 @@ import { UserUpdateComponent } from './user/user-update/user-update.component';
 import { RoleListComponent } from './role/role-list/role-list.component';
 import { RoleCreateComponent } from './role/role-create/role-create.component';
 import { RoleUpdateComponent } from './role/role-update/role-update.component';
+import { MfaComponent } from './profile/mfa.component';
 
 import { PermissionDirective } from './permission/permission.directive';
 import { ArrayToStringPipe } from './shared/array-to-string.pipe';
@@ -67,6 +68,7 @@ import { ArrayToStringPipe } from './shared/array-to-string.pipe';
     RoleListComponent,
     RoleCreateComponent,
     RoleUpdateComponent,
+    MfaComponent,
 
     PermissionDirective,
     ArrayToStringPipe,
