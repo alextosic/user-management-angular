@@ -1,6 +1,6 @@
-<form [formGroup]="updateForm" *ngIf="updateForm" (ngSubmit)="onSubmit()">
+<form class="half-width" [formGroup]="updateForm" *ngIf="updateForm" (ngSubmit)="onSubmit()">
 
-  <div class="form-field half-width">
+  <div class="form-field">
     <mat-form-field appearance="outline">
       <mat-label>Email</mat-label>
       <input matInput type="email" name="email" required email formControlName="email" />
@@ -13,7 +13,7 @@
     </mat-form-field>
   </div>
 
-  <div class="form-field half-width">
+  <div class="form-field">
     <mat-form-field appearance="outline">
       <mat-label>First Name</mat-label>
       <input matInput type="text" name="firstName" required formControlName="firstName" />
@@ -23,7 +23,7 @@
     </mat-form-field>
   </div>
 
-  <div class="form-field half-width">
+  <div class="form-field">
     <mat-form-field appearance="outline">
       <mat-label>Last Name</mat-label>
       <input matInput type="text" name="lastName" required formControlName="lastName" />
@@ -35,7 +35,7 @@
 
   <ng-container *cdpPermissions="['list_roles']">
     <ng-container *ngIf="page === 'updateUser'">
-      <div class="form-field half-width">
+      <div class="form-field">
         <mat-form-field appearance="outline">
           <mat-label>Role</mat-label>
           <mat-select name="role" required ngModel formControlName="role">
@@ -51,14 +51,14 @@
     </ng-container>
   </ng-container>
 
-  <div class="form-field half-width" *ngIf="page === 'updateUser'">
+  <div class="form-field" *ngIf="page === 'updateUser'">
     <mat-checkbox [checked]="editable" (change)="editable ? disableEdit() : enableEdit()">
       Edit password?
     </mat-checkbox>
   </div>
 
   <ng-container *ngIf="page === 'updateUser' && editable">
-    <div class="form-field half-width">
+    <div class="form-field">
       <mat-form-field appearance="outline">
         <mat-label>Password</mat-label>
         <input matInput type="password" name="password" required formControlName="password" />
@@ -68,7 +68,7 @@
       </mat-form-field>
     </div>
 
-    <div class="form-field half-width">
+    <div class="form-field">
       <mat-form-field appearance="outline">
         <mat-label>Confirm Password</mat-label>
         <input

@@ -17,11 +17,11 @@ class UserRepository extends BaseRepository {
   }
 
   async findById(id) {
-    return super.findOne({ _id: id }, null, { path: 'role', populate: { path: 'permissions' } });
+    return super.findOne({ _id: id }, null, [{ path: 'mfa' }, { path: 'role', populate: { path: 'permissions' } }]);
   }
 
   async findByEmail(email) {
-    return super.findOne({ email }, null, { path: 'role', populate: { path: 'permissions' } });
+    return super.findOne({ email }, null, [{ path: 'mfa' }, { path: 'role', populate: { path: 'permissions' } }]);
   }
 
   async updateById(id, data) {

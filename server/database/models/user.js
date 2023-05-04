@@ -31,6 +31,10 @@ const userSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'role',
   },
+  mfa: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'mfa',
+  },
 });
 
 module.exports = mongoose.model('user', userSchema);

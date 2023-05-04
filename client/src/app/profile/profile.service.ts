@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { map, Observable, BehaviorSubject, tap } from 'rxjs';
 
 import { environment } from '../../environments/environment';
@@ -50,8 +50,8 @@ export class ProfileService {
       );
   }
 
-  updateProfile(data: ProfileUpdateModel) {
-    return this.httpClient.patch<HttpResponseModel<ProfileModel>>(this.apiUrl, data)
+  updateProfile(body: ProfileUpdateModel) {
+    return this.httpClient.patch<HttpResponseModel<ProfileModel>>(this.apiUrl, body)
       .pipe(
         map(response => response?.data)
       )
@@ -70,5 +70,47 @@ export class ProfileService {
   deleteProfile() {
     this.profileData = undefined;
     this.profileDataChanged$.next(undefined);
+  }
+
+  addMfa(type: string) {
+    const url = `${this.apiUrl}/mfa`;
+    const options = { params: new HttpParams({ fromObject: { type } }) };
+
+    return this.httpClient.post<HttpResponseModel<undefined>>(url, null, options)
+      .pipe(
+        tap({
+          next: () => {
+            this.fetchProfile().subscribe();
+          },
+        })
+      );
+  }
+
+  verifyMfa(verificationCode: string) {
+    const url = `${this.apiUrl}/mfa/verify`;
+    const body = { verificationCode };
+
+    return this.httpClient.post<HttpResponseModel<undefined>>(url, body)
+      .pipe(
+        tap({
+          next: () => {
+            this.fetchProfile().subscribe();
+          },
+        })
+      );
+  }
+
+  removeMfa(verificationCode: string) {
+    const url = `${this.apiUrl}/mfa/remove`;
+    const body = { verificationCode };
+
+    return this.httpClient.post<HttpResponseModel<undefined>>(url, body)
+      .pipe(
+        tap({
+          next: () => {
+            this.fetchProfile().subscribe();
+          },
+        })
+      );
   }
 }

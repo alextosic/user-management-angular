@@ -21,6 +21,8 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatListModule } from '@angular/material/list';
 import { MatSelectModule } from '@angular/material/select';
 
+import { QRCodeModule } from 'angularx-qrcode';
+
 import { RoutingModule } from './routing/routing.module';
 import { HttpRequestInterceptor } from './http-request.interceptor';
 import { HttpResponseInterceptor } from './http-response.interceptor';
@@ -43,6 +45,8 @@ import { UserUpdateComponent } from './user/user-update/user-update.component';
 import { RoleListComponent } from './role/role-list/role-list.component';
 import { RoleCreateComponent } from './role/role-create/role-create.component';
 import { RoleUpdateComponent } from './role/role-update/role-update.component';
+import { MfaComponent } from './profile/mfa/mfa.component';
+import { MfaVerifyComponent } from './profile/mfa/mfa-verify.component';
 
 import { PermissionDirective } from './permission/permission.directive';
 import { ArrayToStringPipe } from './shared/array-to-string.pipe';
@@ -67,6 +71,8 @@ import { ArrayToStringPipe } from './shared/array-to-string.pipe';
     RoleListComponent,
     RoleCreateComponent,
     RoleUpdateComponent,
+    MfaComponent,
+    MfaVerifyComponent,
 
     PermissionDirective,
     ArrayToStringPipe,
@@ -94,6 +100,8 @@ import { ArrayToStringPipe } from './shared/array-to-string.pipe';
     MatChipsModule,
     MatListModule,
     MatSelectModule,
+
+    QRCodeModule,
 
     RoutingModule,
   ],

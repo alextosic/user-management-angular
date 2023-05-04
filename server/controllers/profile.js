@@ -1,13 +1,16 @@
 const userService = require('../services/user');
+const mfaService = require('../services/mfa');
 const BaseController = require('./base');
 const SuccessResponse = require('../responses/success');
 const ProfileDTO = require('../dtos/profile');
+const ErrorResponse = require('../responses/error');
 
 class ProfileController extends BaseController {
-  constructor(userServiceParam) {
+  constructor(userServiceParam, mfaServiceParam) {
     super();
 
     this.userService = userServiceParam;
+    this.mfaService = mfaServiceParam;
   }
 
   getProfile() {
@@ -35,6 +38,63 @@ class ProfileController extends BaseController {
       return this.sendResponse(res, new SuccessResponse(200, 'Profile deleted successfully.'));
     }, next);
   }
+
+  addMfa() {
+    return async (req, res, next) => this.handleRequest(async () => {
+      const { _id: id, firstName, lastName, mfa } = req.user;
+      const { type } = req.query;
+
+      if (mfa) {
+        throw new ErrorResponse('controller', 400, 'User already has a MFA set up on his account.');
+      }
+
+      let createdMfa;
+
+      if (type === 'totp') {
+        createdMfa = await this.mfaService.createTotp(id, `${firstName} ${lastName}`);
+      }
+
+      await this.userService.update(id, { mfa: createdMfa._id }, true);
+      return this.sendResponse(res, new SuccessResponse(200, 'MFA added successfully.'));
+    }, next);
+  }
+
+  verifyMfa() {
+    return async (req, res, next) => this.handleRequest(async () => {
+      const { _id: userId, mfa } = req.user;
+      const { verificationCode } = req.body;
+
+      if (!mfa) {
+        throw new ErrorResponse('controller', 400, 'MFA not set up for this user.');
+      }
+
+      if (mfa.type === 'totp') {
+        await this.mfaService.verifyTotp(mfa._id, userId, mfa.factorSid, verificationCode);
+      }
+
+      return this.sendResponse(res, new SuccessResponse(200, 'MFA verified successfully.'));
+    }, next);
+  }
+
+  removeMfa() {
+    return async (req, res, next) => this.handleRequest(async () => {
+      const { _id: userId, mfa } = req.user;
+      const { verificationCode } = req.body;
+
+      if (!mfa._id) {
+        throw new ErrorResponse('controller', 400, 'MFA not set up for this user.');
+      }
+
+      if (mfa.type === 'totp') {
+        await this.mfaService.validateTotpChallenge(userId, mfa.factorSid, verificationCode);
+      }
+
+      await this.mfaService.removeMfa(mfa._id);
+      await this.userService.update(userId, { mfa: null }, true);
+
+      return this.sendResponse(res, new SuccessResponse(200, 'MFA removed successfully.'));
+    }, next);
+  }
 }
 
-module.exports = new ProfileController(userService);
+module.exports = new ProfileController(userService, mfaService);

@@ -1,6 +1,8 @@
 const userService = require('../services/user');
 const authService = require('../services/auth');
 const roleService = require('../services/role');
+const mfaService = require('../services/mfa');
+
 const BaseController = require('./base');
 
 const ErrorResponse = require('../responses/error');
@@ -9,12 +11,13 @@ const SuccessResponse = require('../responses/success');
 const { defaultRoles } = require('../constants/role');
 
 class AuthController extends BaseController {
-  constructor(userServiceParam, authServiceParam, roleServiceParam) {
+  constructor(userServiceParam, authServiceParam, roleServiceParam, mfaServiceParam) {
     super();
 
     this.userService = userServiceParam;
     this.authService = authServiceParam;
     this.roleService = roleServiceParam;
+    this.mfaService = mfaServiceParam;
   }
 
   login() {
@@ -22,18 +25,32 @@ class AuthController extends BaseController {
       const { email, password } = req.body;
       const user = await this.userService.getByEmail(email);
 
-      if (!user) {
-        throw new ErrorResponse('controller', 400, 'Email or password invalid.');
+      await this.authService.verifyUser(user, password);
+
+      if (user.mfa && user.mfa.verified) {
+        return this.sendResponse(res, new SuccessResponse(200, 'Enter your verification code.', {
+          verificationCodeRequired: true,
+          verificationType: user.mfa.type,
+        }));
       }
 
-      if (user.passwordResetToken) {
-        throw new ErrorResponse('controller', 400, 'You have a pending password reset.');
-      }
+      const token = this.authService.createToken(user._id);
+      return this.sendResponse(res, new SuccessResponse(200, 'Logged in successfully.', {
+        token,
+      }));
+    }, next);
+  }
 
-      const passwordValid = await this.authService.verifyPassword(password, user.password);
+  verifyLogin() {
+    return (req, res, next) => this.handleRequest(async () => {
+      const { email, password, verificationCode } = req.body;
+      const { type } = req.query;
 
-      if (!passwordValid) {
-        throw new ErrorResponse('controller', 400, 'Email or password invalid.');
+      const user = await this.userService.getByEmail(email);
+      await this.authService.verifyUser(user, password);
+
+      if (type === 'totp') {
+        await this.mfaService.validateTotpChallenge(user._id, user.mfa.factorSid, verificationCode);
       }
 
       const token = this.authService.createToken(user._id);
@@ -70,8 +87,7 @@ class AuthController extends BaseController {
 
   updatePassword() {
     return async (req, res, next) => this.handleRequest(async () => {
-      const { passwordResetToken } = req.params;
-      const { password } = req.body;
+      const { password, passwordResetToken } = req.body;
 
       const user = await this.userService.get({ passwordResetToken });
 
@@ -93,4 +109,4 @@ class AuthController extends BaseController {
   }
 }
 
-module.exports = new AuthController(userService, authService, roleService);
+module.exports = new AuthController(userService, authService, roleService, mfaService);

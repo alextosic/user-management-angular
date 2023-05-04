@@ -1,6 +1,6 @@
-<form #createForm="ngForm" (submit)="onSubmit(createForm)">
+<form [class]="{ 'half-width': page === 'createUser' }" #createForm="ngForm" (submit)="onSubmit(createForm)">
 
-  <div [class]="{ 'form-field': true, 'half-width': page === 'createUser'}">
+  <div class="form-field">
     <mat-form-field appearance="outline">
       <mat-label>Email</mat-label>
       <input matInput type="email" name="email" required ngModel email #email="ngModel" />
@@ -13,7 +13,7 @@
     </mat-form-field>
   </div>
 
-  <div [class]="{ 'form-field': true, 'half-width': page === 'createUser'}">
+  <div class="form-field">
     <mat-form-field appearance="outline">
       <mat-label>First Name</mat-label>
       <input matInput type="text" name="firstName" required ngModel #firstName="ngModel" />
@@ -23,7 +23,7 @@
     </mat-form-field>
   </div>
 
-  <div [class]="{ 'form-field': true, 'half-width': page === 'createUser'}">
+  <div class="form-field">
     <mat-form-field appearance="outline">
       <mat-label>Last Name</mat-label>
       <input matInput type="text" name="lastName" required ngModel #lastName="ngModel" />
@@ -35,7 +35,7 @@
 
   <ng-container *ngIf="page === 'createUser'">
     <ng-container *cdpPermissions="['list_roles']">
-      <div [class]="{ 'form-field': true, 'half-width': page === 'createUser'}">
+      <div class="form-field">
         <mat-form-field appearance="outline">
           <mat-label>Role</mat-label>
           <mat-select name="role" required ngModel #role="ngModel">
@@ -51,7 +51,7 @@
     </ng-container>
   </ng-container>
 
-  <div [class]="{ 'form-field': true, 'half-width': page === 'createUser'}">
+  <div class="form-field">
     <mat-form-field appearance="outline">
       <mat-label>Password</mat-label>
       <input matInput type="password" name="password" required ngModel #password="ngModel" />
@@ -59,7 +59,7 @@
     </mat-form-field>
   </div>
 
-  <div [class]="{ 'form-field': true, 'half-width': page === 'createUser'}">
+  <div class="form-field">
     <mat-form-field appearance="outline">
       <mat-label>Confirm Password</mat-label>
       <input
