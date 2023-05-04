@@ -1,4 +1,4 @@
-import { MfaModel } from './mfa.model';
+import { MfaModel } from './mfa/mfa.model';
 
 export interface ProfileModel {
   email: string;
