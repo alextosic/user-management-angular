@@ -16,8 +16,26 @@ class AuthService {
     try {
       return bcrypt.compare(passwordToVerify, userPassword);
     } catch (err) {
-      throw new ErrorResponse('service', 500, 'Incorrect password.');
+      throw new ErrorResponse('service', 400, 'Incorrect password.');
     }
+  }
+
+  async verifyUser(user, password) {
+    if (!user) {
+      throw new ErrorResponse('service', 400, 'Email or password invalid.');
+    }
+
+    if (user.passwordResetToken) {
+      throw new ErrorResponse('service', 400, 'You have a pending password reset.');
+    }
+
+    const passwordValid = await this.verifyPassword(password, user.password);
+
+    if (!passwordValid) {
+      throw new ErrorResponse('service', 400, 'Email or password invalid.');
+    }
+
+    return true;
   }
 
   createToken(userId) {

@@ -3,7 +3,7 @@ const mfaService = require('../services/mfa');
 const BaseController = require('./base');
 const SuccessResponse = require('../responses/success');
 const ProfileDTO = require('../dtos/profile');
-const MfaDTO = require('../dtos/mfa');
+const ErrorResponse = require('../responses/error');
 
 class ProfileController extends BaseController {
   constructor(userServiceParam, mfaServiceParam) {
@@ -41,26 +41,58 @@ class ProfileController extends BaseController {
 
   addMfa() {
     return async (req, res, next) => this.handleRequest(async () => {
-      const { _id: id, firstName, lastName } = req.user;
-      const { type } = req.params;
+      const { _id: id, firstName, lastName, mfa } = req.user;
+      const { type } = req.query;
 
-      let mfaId;
-
-      if (type === 'totp') {
-        mfaId = (await this.mfaService.createTotp(id, `${firstName} ${lastName}`))._id;
+      if (mfa) {
+        throw new ErrorResponse('controller', 400, 'User already has a MFA set up on his account.');
       }
 
-      await this.userService.updateUser(id, { mfa: mfaId });
+      let createdMfa;
+
+      if (type === 'totp') {
+        createdMfa = await this.mfaService.createTotp(id, `${firstName} ${lastName}`);
+      }
+
+      await this.userService.update(id, { mfa: createdMfa._id }, true);
       return this.sendResponse(res, new SuccessResponse(200, 'MFA added successfully.'));
     }, next);
   }
 
-  listMfas() {
+  verifyMfa() {
     return async (req, res, next) => this.handleRequest(async () => {
-      const { _id: id } = req.user;
+      const { _id: userId, mfa } = req.user;
+      const { verificationCode } = req.body;
 
-      const mfas = await this.mfaService.getAllByUser(id);
-      return this.sendResponse(res, new SuccessResponse(200, 'MFAs fetched successfully.', MfaDTO.fromArray(mfas)));
+      if (!mfa) {
+        throw new ErrorResponse('controller', 400, 'MFA not set up for this user.');
+      }
+
+      if (mfa.type === 'totp') {
+        await this.mfaService.verifyTotp(mfa._id, userId, mfa.factorSid, verificationCode);
+      }
+
+      return this.sendResponse(res, new SuccessResponse(200, 'MFA verified successfully.'));
+    }, next);
+  }
+
+  removeMfa() {
+    return async (req, res, next) => this.handleRequest(async () => {
+      const { _id: userId, mfa } = req.user;
+      const { verificationCode } = req.body;
+
+      if (!mfa._id) {
+        throw new ErrorResponse('controller', 400, 'MFA not set up for this user.');
+      }
+
+      if (mfa.type === 'totp') {
+        await this.mfaService.validateTotpChallenge(userId, mfa.factorSid, verificationCode);
+      }
+
+      await this.mfaService.removeMfa(mfa._id);
+      await this.userService.update(userId, { mfa: null }, true);
+
+      return this.sendResponse(res, new SuccessResponse(200, 'MFA removed successfully.'));
     }, next);
   }
 }

@@ -20,9 +20,10 @@ export class UpdatePasswordComponent {
     const passwordResetToken = this.route.snapshot.paramMap.get('passwordResetToken');
 
     if (passwordResetToken) {
-      this.authService.updatePassword(passwordResetToken, {
+      this.authService.updatePassword({
         password: form.value.password,
         confirmPassword: form.value.confirmPassword,
+        passwordResetToken,
       }).subscribe();
     }
   }

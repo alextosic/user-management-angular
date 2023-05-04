@@ -1,11 +1,11 @@
-const { param } = require('express-validator');
+const { body } = require('express-validator');
 
 const BaseValidator = require('./base');
 
 class AuthValidator extends BaseValidator {
   validatePasswordResetToken(required) {
     return this
-      .isRequired(param('passwordResetToken'), 'Password reset token', required)
+      .isRequired(body('passwordResetToken'), 'Password reset token', required)
       .escape()
       .trim()
       .isUUID()
@@ -13,7 +13,19 @@ class AuthValidator extends BaseValidator {
   }
 
   validateLogin() {
-    return this.validate([this.validateEmail(true)]);
+    return this.validate([
+      this.validateEmail(true),
+      this.validatePassword(true),
+    ]);
+  }
+
+  validateVerifyLogin() {
+    return this.validate([
+      this.validateEmail(true),
+      this.validatePassword(true),
+      this.validateMfaVerificationCode(true),
+      this.validateMfaType(true),
+    ]);
   }
 
   validateRegister() {

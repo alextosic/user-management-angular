@@ -12,6 +12,12 @@ router.post(
 );
 
 router.post(
+  '/verify',
+  authValidator.validateVerifyLogin(),
+  authController.verifyLogin(),
+);
+
+router.post(
   '/register',
   authValidator.validateRegister(),
   authController.register(),
@@ -24,7 +30,7 @@ router.post(
 );
 
 router.patch(
-  '/update-password/:passwordResetToken',
+  '/update-password',
   authValidator.validateUpdatePassword(),
   authController.updatePassword(),
 );

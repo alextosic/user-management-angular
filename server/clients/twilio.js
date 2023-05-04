@@ -18,32 +18,44 @@ class TwilioClient {
           factorType: 'totp',
         });
     } catch (err) {
-      throw new ErrorResponse('twilio', 400, 'Unable to create TOTP configuration for the user.');
+      throw new ErrorResponse('twilio', 400, 'Unable to add TOTP authentication for this user.');
     }
   }
 
-  async verifyTotpFactor(userId, factorSid, token) {
+  async verifyTotpFactor(userId, factorSid, verificationCode) {
     try {
-      return this.client.verify.v2.services(twilioConstants.serviceSid)
+      const verifyResponse = await this.client.verify.v2.services(twilioConstants.serviceSid)
         .entities(userId)
         .factors(factorSid)
-        .update({ authPayload: token });
+        .update({ authPayload: verificationCode });
+
+      if (verifyResponse.status !== 'verified') {
+        throw new Error();
+      }
+
+      return verifyResponse;
     } catch (err) {
-      throw new ErrorResponse('twilio', 400, 'Unable to verify TOTP configuration for the user.');
+      throw new ErrorResponse('twilio', 400, 'Invalid one-time password.');
     }
   }
 
-  async validateTotpChallenge(userId, factorSid, token) {
+  async validateTotpChallenge(userId, factorSid, verificationCode) {
     try {
-      return this.client.verify.v2.services(twilioConstants.serviceSid)
+      const validateResponse = await this.client.verify.v2.services(twilioConstants.serviceSid)
         .entities(userId)
         .challenges
         .create({
-          authPayload: token,
+          authPayload: verificationCode,
           factorSid,
         });
+
+      if (validateResponse.status !== 'approved') {
+        throw new Error();
+      }
+
+      return validateResponse;
     } catch (err) {
-      throw new ErrorResponse('twilio', 401, 'Invalid one-time password.');
+      throw new ErrorResponse('twilio', 400, 'Invalid one-time password.');
     }
   }
 }

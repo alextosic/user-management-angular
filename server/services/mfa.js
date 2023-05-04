@@ -7,10 +7,6 @@ class MfaService {
     this.client = client;
   }
 
-  async getAllByUser(userId) {
-    return this.repository.findByUserId(userId);
-  }
-
   async createTotp(userId, userName) {
     const totpFactor = await this.client.createTotpFactor(userId, userName);
 
@@ -20,6 +16,19 @@ class MfaService {
       uri: totpFactor.binding.uri,
       user: userId,
     });
+  }
+
+  async verifyTotp(totpId, userId, factorSid, verificationCode) {
+    await this.client.verifyTotpFactor(userId, factorSid, verificationCode);
+    return this.repository.updateById(totpId, { verified: true });
+  }
+
+  async validateTotpChallenge(userId, factorSid, verificationCode) {
+    return this.client.validateTotpChallenge(userId, factorSid, verificationCode);
+  }
+
+  async removeMfa(mfaId) {
+    return this.repository.deleteById(mfaId);
   }
 }
 

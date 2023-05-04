@@ -1,0 +1,49 @@
+<div class="mfa">
+  <div class="mat-headline-5">Multi-factor authentication</div>
+
+  <ng-container *ngIf="!profileData?.mfa && !creating">
+    <button mat-raised-button color="primary" (click)="toggleCreating(true)">Enable MFA</button>
+  </ng-container>
+
+  <ng-container *ngIf="creating">
+    <div class="form-field">
+      <mat-form-field appearance="outline">
+        <mat-select [(ngModel)]="selectedType">
+          <mat-option *ngFor="let type of mfaTypes" [value]="type.value">{{ type.text }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <button mat-raised-button color="primary" (click)="addMfa()">Add</button>
+  </ng-container>
+
+  <ng-container *ngIf="profileData?.mfa && !profileData?.mfa?.verified">
+    <ng-container *ngIf="profileData?.mfa?.type === 'totp'">
+      <qrcode [qrdata]="profileData?.mfa?.uri || ''" cssClass="qrcode" />
+      <p class="totp-hint">
+        Scan the QR code with your authenticator app, and enter the 6-digit verification code below.
+      </p>
+    </ng-container>
+    <cdp-mfa-verify (cdpSubmit)="verifyMfa($event)" />
+  </ng-container>
+
+  <ng-container *ngIf="profileData?.mfa?.verified">
+    <mat-list>
+      <mat-list-item>
+        <span matListItemTitle>Selected MFA type</span>
+        <span matListItemLine>{{ currentMfaType() }}</span>
+      </mat-list-item>
+    </mat-list>
+    <div class="buttons" *ngIf="!removing">
+      <button mat-raised-button color="warn" (click)="toggleRemoving(true)">Remove MFA</button>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="removing">
+    <p>Enter your 6-digit verification code to remove MFA from your account.</p>
+    <cdp-mfa-verify
+      [showCancel]="true"
+      (cdpSubmit)="removeMfa($event)"
+      (cdpCancel)="toggleRemoving(false)"
+    />
+  </ng-container>
+</div>

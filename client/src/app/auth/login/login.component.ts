@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
 
 import { AuthService } from '../auth.service';
 
@@ -10,9 +9,12 @@ import { AuthService } from '../auth.service';
   styleUrls: ['../auth.component.scss'],
 })
 export class LoginComponent {
-  constructor(private authService: AuthService, private router: Router) {}
+  verifyingCode: boolean = false;
+  verificationType: string | undefined = '';
 
-  onSubmit(form: NgForm) {
+  constructor(private authService: AuthService) {}
+
+  onLogin(form: NgForm) {
     if (form.invalid) {
       return;
     }
@@ -22,6 +24,15 @@ export class LoginComponent {
       password: form.value.password,
     };
 
-    this.authService.login(data).subscribe();
+    this.authService.login(data).subscribe((loginData) => {
+      if (loginData?.verificationCodeRequired) {
+        this.verifyingCode = true;
+        this.verificationType = loginData.verificationType;
+      }
+    });
+  }
+
+  onVerify(verificationCode: string) {
+    this.authService.verifyLogin(this.verificationType, verificationCode).subscribe();
   }
 }

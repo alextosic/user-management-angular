@@ -4,5 +4,13 @@ export interface LoginRequestModel {
 }
 
 export interface LoginResponseModel {
-  token: string;
+  token?: string;
+  verificationCodeRequired?: boolean;
+  verificationType?: string;
+}
+
+export interface VerifyLoginRequestModel {
+  email: string;
+  password: string;
+  verificationCode: string;
 }

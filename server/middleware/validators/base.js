@@ -91,6 +91,26 @@ class BaseValidator {
       .withMessage('Per page query should be a number.');
   }
 
+  validateMfaType(required) {
+    return this
+      .isRequired(query('type'), 'MFA type', required)
+      .escape()
+      .trim()
+      .isAlpha()
+      .withMessage('MFA type should only contain letters of the alphabet.');
+  }
+
+  validateMfaVerificationCode(required) {
+    return this
+      .isRequired(body('verificationCode'), 'Verification code', required)
+      .escape()
+      .trim()
+      .isNumeric()
+      .withMessage('Verification code can only contain numbers.')
+      .isLength({ min: 6, max: 6 })
+      .withMessage('Verification code must be exactly 6 digits long.');
+  }
+
   validate(validations) {
     return async (req, res, next) => {
       await Promise.all(validations.map(async (validation) => {

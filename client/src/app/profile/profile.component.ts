@@ -21,6 +21,4 @@ export class ProfileComponent implements OnInit {
   updateProfile(profileData: ProfileUpdateModel) {
     this.profileService.updateProfile(profileData).subscribe();
   }
-
-  protected readonly undefined = undefined;
 }
